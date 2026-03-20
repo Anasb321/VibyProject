@@ -1,0 +1,71 @@
+﻿<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="Login" Height="450" Width="800">
+    
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+            
+            <Border BorderBrush="black" BorderThickness="1" Padding="20" Background="White">
+                <StackPanel>
+                    <TextBlock Text="Welcome !" 
+                               FontSize="24" 
+                               FontWeight="SemiBold" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,0,0,20"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                                   Text="Username:" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,15"/>
+                        <TextBox x:Name="UsernameBox" 
+                                 Grid.Row="0" Grid.Column="1" 
+                                 Height="25" 
+                                 Margin="0,0,0,15"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" 
+                                   Text="Password:" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,15"/>
+                        <PasswordBox x:Name="UserPasswordBox" 
+                                     Grid.Row="1" Grid.Column="1" 
+                                     Height="25" 
+                                     Margin="0,0,0,15"/>
+                    </Grid>
+
+                    <Button x:Name="LoginButton" 
+                            Content="Login" 
+                            Height="30" 
+                            Width="100" 
+                            Margin="0,10,0,0" 
+                            HorizontalAlignment="Center"
+                            Click="LoginButton_OnClick"/>
+                    
+                    <Button x:Name="SignupButton" 
+                            Content="Sign up" 
+                            Height="30" 
+                            Width="100" 
+                            Margin="0,10,0,0" 
+                            HorizontalAlignment="Center"
+                            Click="SignupButton_OnClick"/>
+
+                </StackPanel>
+            </Border>
+            
+        </StackPanel>
+    </Grid>
+</Window>
