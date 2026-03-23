@@ -1,0 +1,136 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Anasb\\source\\repos\\Anasb321\\VibyProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T02:08:46.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\MainWindow.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-23T02:08:46.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T02:08:46.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\LoginWindow.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-23T02:08:46.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\AssemblyInfo.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T02:08:45.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T02:08:45.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml",
+              "ToolTip": "C:\\Users\\Anasb\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml",
+              "RelativeToolTip": "..\\..\\..\\..\\OneDrive - C\u00E9gep Marie-Victorin\\Desktop\\D\u00E9veloppement d\u0027applications pour entreprise\\VibyAppProject\\App.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-23T02:08:45.504Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
