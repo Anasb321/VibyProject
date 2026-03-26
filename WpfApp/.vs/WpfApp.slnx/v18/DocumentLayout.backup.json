@@ -3,32 +3,32 @@
   "WorkspaceRootPath": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\inscriptionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\inscriptionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\hashageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\hashageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\inscriptionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\inscriptionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|d:\\session4\\entreprise\\vibyproject\\wpfapp\\wpfapp\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F9D5F64-00BF-7D07-B9BF-7E6C60996CF1}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,24 +38,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "HashageService.cs",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\HashageService.cs",
               "RelativeDocumentMoniker": "WpfApp\\HashageService.cs",
               "ToolTip": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\HashageService.cs",
               "RelativeToolTip": "WpfApp\\HashageService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T01:23:46.988Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T01:23:46.988Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "WpfApp\\AssemblyInfo.cs",
@@ -63,25 +62,24 @@
               "RelativeToolTip": "WpfApp\\AssemblyInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T00:43:56.927Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T00:43:56.927Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\RelayCommand.cs",
               "RelativeDocumentMoniker": "WpfApp\\RelayCommand.cs",
               "ToolTip": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\RelayCommand.cs",
               "RelativeToolTip": "WpfApp\\RelayCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAuwBQAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-23T00:39:37.77Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "InscriptionViewModel.cs",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\InscriptionViewModel.cs",
               "RelativeDocumentMoniker": "WpfApp\\InscriptionViewModel.cs",
@@ -89,46 +87,42 @@
               "RelativeToolTip": "WpfApp\\InscriptionViewModel.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAkwC0AAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T00:38:05.333Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T00:38:05.333Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Utilisateur.cs",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\Utilisateur.cs",
               "RelativeDocumentMoniker": "WpfApp\\Utilisateur.cs",
               "ToolTip": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\Utilisateur.cs",
               "RelativeToolTip": "WpfApp\\Utilisateur.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T00:37:30.99Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T00:37:30.99Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\MainWindow.xaml",
               "RelativeDocumentMoniker": "WpfApp\\MainWindow.xaml",
               "ToolTip": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\MainWindow.xaml",
               "RelativeToolTip": "WpfApp\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-23T00:10:27.597Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T00:10:27.597Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "WpfApp\\MainWindow.xaml.cs",
-              "ToolTip": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\MainWindow.xaml.cs*",
-              "RelativeToolTip": "WpfApp\\MainWindow.xaml.cs*",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAuwBUAAAAMAAAAAAAAAA==",
+              "ToolTip": "D:\\Session4\\Entreprise\\VibyProject\\WpfApp\\WpfApp\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WpfApp\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAmwB0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T00:10:25.943Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T00:10:25.943Z"
             }
           ]
         }

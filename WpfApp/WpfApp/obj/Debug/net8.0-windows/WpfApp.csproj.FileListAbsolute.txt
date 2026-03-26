@@ -22,3 +22,11 @@ D:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\bin\Debug\net8.0-windows\BCrypt
 D:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp.csproj.AssemblyReference.cache
 D:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp.csproj.Up2Date
 D:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp_MarkupCompile.lref
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp.csproj.AssemblyReference.cache
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\MainWindow.g.cs
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\App.g.cs
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp_MarkupCompile.cache
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp_MarkupCompile.lref
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp.dll
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\refint\WpfApp.dll
+E:\Session4\Entreprise\VibyProject\WpfApp\WpfApp\obj\Debug\net8.0-windows\WpfApp.pdb
