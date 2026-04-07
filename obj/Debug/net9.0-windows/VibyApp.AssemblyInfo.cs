@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VibyApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+231010864ee7e57ae21f1a8287a671ee4534089d")]
 [assembly: System.Reflection.AssemblyProductAttribute("VibyApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VibyApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

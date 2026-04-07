@@ -8,13 +8,13 @@ C:\Users\cupid\Downloads\vivy\VibyProject-Merged\VibyApp\obj\Debug\net9.0-window
 VibyApp
 none
 false
-TRACE;DEBUG;NET;NET9_0;NETCOREAPP
+TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\cupid\Downloads\vivy\VibyProject-Merged\VibyApp\App.xaml
 4-1384036499
 
 11-94047349
-2011793517961
+2011648602407
 InscriptionWindow.xaml;LoginWindow.xaml;MainWindow.xaml;ProfileWindow.xaml;
 
-False
+True
 
