@@ -1,0 +1,191 @@
+﻿<Window x:Class="VibyApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VibyApp"
+        mc:Ignorable="d"
+        Title="Accueil"
+        Height="600"
+        Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+
+        <!-- BACKGROUND -->
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#2C3E50" Offset="0"/>
+                <GradientStop Color="#3E5870" Offset="0.5"/>
+                <GradientStop Color="#5B738B" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+
+        <Grid>
+
+            <!-- COLUMNS -->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ROWS -->
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <!-- SIDEBAR -->
+
+            <Border Grid.RowSpan="2"
+                    Background="#1F2937">
+
+                <StackPanel Margin="10">
+
+                    <TextBlock
+                        Text="Viby"
+                        Foreground="White"
+                        FontSize="26"
+                        HorizontalAlignment="Center"
+                        Margin="10"/>
+
+
+                    <Button Content="🏠 Accueil" Margin="5" Height="35" Click="Home_Click"/>
+                    <Button Content="🔎 Explorer" Margin="5" Height="35"/>
+                    <Button Content="🎵 Playlist" Margin="5" Height="35"/>
+                    <Button Content="👤 Profil" Margin="5" Height="35" Click="Profile_Click"/>
+
+                </StackPanel>
+
+            </Border>
+
+
+            <!-- HEADER -->
+
+            <Border Grid.Column="1"
+        Background="#111827">
+
+                <Grid>
+
+                    <Border
+                        Width="425"
+                        Height="36"
+                        CornerRadius="18"
+                        Background="#1F2937"
+                        HorizontalAlignment="center"
+                        VerticalAlignment="Center"
+                        Margin="15">
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <!-- LOUPE -->
+
+                            <TextBlock
+                                Text="🔍"
+                                FontSize="14"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Foreground="White"/>
+
+
+                            <!-- TEXTBOX -->
+
+                            <TextBox
+                                x:Name="SearchBox"
+                                Grid.Column="1"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                Foreground="White"
+                                FontSize="14"
+                                VerticalAlignment="Center"
+                                Text="Rechercher..."/>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+            </Border>
+
+
+            <!-- CONTENT -->
+
+            <ScrollViewer Grid.Column="1"
+                          Grid.Row="1">
+
+                <StackPanel Margin="20">
+
+
+                    <!-- HITS -->
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Text="Hits du moment"
+                            FontSize="20"
+                            Foreground="White"
+                            Margin="25 0 0 0"/>
+
+                        <Button Grid.Column="1"
+                                Content="Next >"
+                                Height="25"
+                                Margin=" 0 0 25 0"/>
+
+                    </Grid>
+
+
+                    <WrapPanel Margin="0 10 0 20">
+
+                        <!-- MUSIC CARDS -->
+                        <Border Width="150" Height="180" Background="#1F2937" CornerRadius="8" Margin="10">
+                            <StackPanel>
+                                <Border Width="130" Height="120" Background="Gray" CornerRadius="4" Margin="10"/>
+                                <TextBlock Text="Chanson 1" Foreground="White" HorizontalAlignment="Center" Margin="0,5"/>
+                                <TextBlock Text="Artiste 1" Foreground="LightGray" HorizontalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Width="150" Height="180" Background="#1F2937" CornerRadius="8" Margin="10">
+                            <StackPanel>
+                                <Border Width="130" Height="120" Background="Gray" CornerRadius="4" Margin="10"/>
+                                <TextBlock Text="Chanson 2" Foreground="White" HorizontalAlignment="Center" Margin="0,5"/>
+                                <TextBlock Text="Artiste 2" Foreground="LightGray" HorizontalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Width="150" Height="180" Background="#1F2937" CornerRadius="8" Margin="10">
+                            <StackPanel>
+                                <Border Width="130" Height="120" Background="Gray" CornerRadius="4" Margin="10"/>
+                                <TextBlock Text="Chanson 3" Foreground="White" HorizontalAlignment="Center" Margin="0,5"/>
+                                <TextBlock Text="Artiste 3" Foreground="LightGray" HorizontalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+
+                    </WrapPanel>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Grid>
+
+    </Grid>
+
+</Window>

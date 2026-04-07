@@ -1,0 +1,75 @@
+<Window x:Class="VibyApp.ProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Profil" Height="600" Width="900"
+        Background="#1E1E2F">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Background="#2A2D3E">
+            <TextBlock Text="Mon Profil" Foreground="White" FontSize="18" Margin="15"/>
+            <Button Content="Profil" Margin="10" Height="35"/>
+            <Button Content="Préférences" Margin="10" Height="35"/>
+            <Button Content="Langue" Margin="10" Height="35"/>
+            <Button Content="Notifications" Margin="10" Height="35"/>
+            <Button Content="Retour" Margin="10" Height="35" Click="Back_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="20">
+
+            <StackPanel Orientation="Horizontal">
+                <Border Width="80" Height="80" Background="Gray" CornerRadius="8"/>
+                <StackPanel Margin="15,0">
+                    <TextBlock Text="Alex Martin" Foreground="White" FontSize="20"/>
+                    <TextBlock Text="alex@email.com" Foreground="LightGray"/>
+                    <TextBlock Text="Premium" Foreground="Gold"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="0,20">
+                <TextBlock Text="Membre depuis : 2019" Foreground="White"/>
+                <TextBlock Text="Naissance : 1990" Foreground="White"/>
+                <TextBlock Text="Pays : France" Foreground="White"/>
+            </StackPanel>
+
+            <TextBlock Text="Préférences" Foreground="White" FontSize="16" Margin="0,10"/>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Thème" Foreground="White"/>
+                <Button Content="Modifier" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Langue" Foreground="White"/>
+                <TextBlock Text="Français" Grid.Column="1" Foreground="LightGray"/>
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Notifications" Foreground="White"/>
+                <CheckBox Grid.Column="1" IsChecked="True"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="0,30">
+                <Button Content="Abonnement" Height="35" Width="150"/>
+                <Button Content="Déconnexion" Background="#E74C3C" Foreground="White" Height="35" Width="150" Margin="10,0" Click="Logout_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
