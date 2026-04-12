@@ -6,8 +6,6 @@ namespace VibyApp.UI.Views
 {
     public partial class LoginView : UserControl
     {
-
-        private bool _showPassword = false;
         public LoginView()
         {
             InitializeComponent();
@@ -15,20 +13,19 @@ namespace VibyApp.UI.Views
 
         private void TogglePassword(object sender, RoutedEventArgs e)
         {
-            if (!_showPassword)
+            if (txtPassword.Visibility == Visibility.Visible)
             {
+                // Passer en mode visible
                 txtPasswordVisible.Text = txtPassword.Password;
                 txtPassword.Visibility = Visibility.Collapsed;
                 txtPasswordVisible.Visibility = Visibility.Visible;
-                _showPassword = true;
             }
             else
             {
+                // Passer en mode caché
                 txtPassword.Password = txtPasswordVisible.Text;
-
-                txtPassword.Visibility = Visibility.Visible;
                 txtPasswordVisible.Visibility = Visibility.Collapsed;
-                _showPassword = false;
+                txtPassword.Visibility = Visibility.Visible;
             }
         }
 
@@ -36,14 +33,16 @@ namespace VibyApp.UI.Views
         {
             if (this.DataContext is LoginViewModel vm)
             {
-                // 1. On donne l'email au ViewModel
+                // On récupère l'email
                 vm.Email = txtEmail.Text;
 
-                // 2. On récupère le mot de passe du bon champ
-                string password = _showPassword ? txtPasswordVisible.Text : txtPassword.Password;
+                // On récupère le bon mot de passe selon quel champ est affiché
+                string passwordToVerify = (txtPassword.Visibility == Visibility.Visible)
+                    ? txtPassword.Password
+                    : txtPasswordVisible.Text;
 
-                // 3. On demande au ViewModel de vérifier
-                vm.LoginAction(password);
+                // On lance l'action de login
+                vm.LoginAction(passwordToVerify);
             }
         }
 

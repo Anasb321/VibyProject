@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VibyApp.Core\VibyApp.Core.csproj" />
     <ProjectReference Include="..\VibyApp.ViewModels\VibyApp.ViewModels.csproj" />
   </ItemGroup>
 
