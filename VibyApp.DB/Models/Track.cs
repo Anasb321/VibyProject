@@ -1,17 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations; 
 
 namespace VibyApp.DB.Models
 {
     public class Track
     {
+        [Key]
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string Title { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(100)]
         public string Artist { get; set; } = string.Empty;
-        public string Duration { get; set; } = string.Empty;
+
+        [Required]
+        [Range(1, 1200, ErrorMessage = "La durée doit être comprise entre 1 seconde et 20 minutes.")]
+        public int Duration { get; set; }
+
         public string TrackPicture { get; set; } = string.Empty;
         public string ArtistPicture { get; set; } = string.Empty;
 

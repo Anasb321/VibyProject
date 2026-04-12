@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VibyApp.DB.Models;
+using VibyApp.DB.Services;
 
 namespace VibyApp.DB.Data
 {
@@ -27,6 +28,14 @@ namespace VibyApp.DB.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.UserName)
+                .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
             modelBuilder.Entity<Playlist>()
                 .HasMany(p => p.Tracks)
                 .WithMany(t => t.Playlists);
@@ -36,6 +45,18 @@ namespace VibyApp.DB.Data
                 .WithMany(u => u.Playlists)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                FirstName = "Administrateur",
+                LastName = "Vibe",
+                UserName = "admin",
+                Email = "test@gmail.com",
+                MotDePasse = "1234",
+                // voila ce qu'on fera dans le futur pour hacher meme le mot de passe de l'admin: MotDePasse = HashageService.HacherMDP("1234"),
+                IsAdmin = true
+            });
         }
     }
 }
