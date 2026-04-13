@@ -1,0 +1,91 @@
+<Window x:Class="Page_profil.Playlists"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Playlists" Height="600" Width="1000"
+        Background="#1E1E2F">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Background="#2A2D3E">
+            <TextBlock Text="Mes Playlists" Foreground="White" FontSize="18" Margin="15"/>
+            <Button Content="Mes Playlists" Margin="10" Height="35"/>
+            <Button Content="Hits Favoris" Margin="10" Height="35"/>
+            <Button Content="Chill Vibes" Margin="10" Height="35"/>
+            <Button Content="Workout Mix" Margin="10" Height="35"/>
+            <Button Content="Années 80" Margin="10" Height="35"/>
+            <Button Content="Soirée Party" Margin="10" Height="35"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="20">
+
+            <TextBlock Text="Mes Playlists" Foreground="White" FontSize="22" Margin="0,10"/>
+
+            <Border Background="#2F3245" CornerRadius="8" Margin="0,10" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="60" Height="60" Background="Gray" CornerRadius="5"/>
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="Hits Favoris" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="340 titres" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#2F3245" CornerRadius="8" Margin="0,10" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="60" Height="60" Background="Gray" CornerRadius="5"/>
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="Chill Vibes" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="120 titres" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#2F3245" CornerRadius="8" Margin="0,10" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="60" Height="60" Background="Gray" CornerRadius="5"/>
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="Roadtrip Songs" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="200 titres" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Titres Sauvegardés" Foreground="White" FontSize="18" Margin="0,20,0,10"/>
+
+            <Border Background="#2F3245" CornerRadius="8" Margin="0,5" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="50" Height="50" Background="Gray" CornerRadius="5"/>
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="Save Your Tears" Foreground="White"/>
+                        <TextBlock Text="The Weeknd" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#2F3245" CornerRadius="8" Margin="0,5" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="50" Height="50" Background="Gray" CornerRadius="5"/>
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="Shape of You" Foreground="White"/>
+                        <TextBlock Text="Ed Sheeran" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#2F3245" CornerRadius="8" Margin="0,5" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="50" Height="50" Background="Gray" CornerRadius="5"/>
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="Blinding Lights" Foreground="White"/>
+                        <TextBlock Text="The Weeknd" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </Grid>
+</Window>
