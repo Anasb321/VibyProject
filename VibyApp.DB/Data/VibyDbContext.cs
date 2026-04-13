@@ -53,8 +53,8 @@ namespace VibyApp.DB.Data
                 LastName = "Vibe",
                 UserName = "admin",
                 Email = "test@gmail.com",
-                MotDePasse = "1234",
-                // voila ce qu'on fera dans le futur pour hacher meme le mot de passe de l'admin: MotDePasse = HashageService.HacherMDP("1234"),
+                //MotDePasse = "1234",
+                MotDePasse = HashageService.HacherMDP("1234"),
                 IsAdmin = true
             });
         }
