@@ -3,7 +3,7 @@
     using System.Net.Http;
     using System.Text.Json;
 
-    public class DeezerService
+    public class DeezerGenre
     {
         private readonly HttpClient _httpClient = new HttpClient();
 
