@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("top10Trend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f283a770b866a586d316a35fd65c698796fe89f")]
 [assembly: System.Reflection.AssemblyProductAttribute("top10Trend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("top10Trend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

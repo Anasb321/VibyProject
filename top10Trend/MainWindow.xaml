@@ -1,7 +1,7 @@
-﻿<Window x:Class="MusicApp.MainWindow"
+﻿<Window x:Class="Top10Trend.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Top Charts" Height="600" Width="800"
+        Title="Top 10 trend artist and music" Height="600" Width="800"
         Background="#121212" Foreground="White">
     
     <Grid Margin="20">
@@ -26,6 +26,17 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
+        
+        <Button Content="Refresh" 
+                Click="RefreshButton" 
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Width="100" Height="30" 
+                Margin="10"
+                Background="#2D2D2D" 
+                Foreground="White" 
+                BorderBrush="#555555"/>
 
         <StackPanel Grid.Column="1" Margin="10,0,0,0">
             <TextBlock Text="Top 10 Artistes" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>

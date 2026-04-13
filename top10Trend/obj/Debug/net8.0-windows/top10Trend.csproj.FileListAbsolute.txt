@@ -17,3 +17,4 @@ D:\Entreprise\top10Trend\top10Trend\obj\Debug\net8.0-windows\refint\top10Trend.d
 D:\Entreprise\top10Trend\top10Trend\obj\Debug\net8.0-windows\top10Trend.pdb
 D:\Entreprise\top10Trend\top10Trend\obj\Debug\net8.0-windows\top10Trend.genruntimeconfig.cache
 D:\Entreprise\top10Trend\top10Trend\obj\Debug\net8.0-windows\ref\top10Trend.dll
+D:\Entreprise\top10Trend\top10Trend\obj\Debug\net8.0-windows\top10Trend.sourcelink.json

@@ -28,6 +28,9 @@ namespace Top10Trend.Models
 
         [JsonPropertyName("album")]
         public Album Album { get; set; }
+        
+        [JsonPropertyName("link")]
+        public string linkTrack { get; set; }
     }
 
     public class Artist
@@ -37,6 +40,9 @@ namespace Top10Trend.Models
 
         [JsonPropertyName("picture_medium")]
         public string PictureUrl { get; set; }
+        
+        [JsonPropertyName("link")]
+        public string linkArtist { get; set; }
     }
 
     public class Album
