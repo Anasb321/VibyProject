@@ -9,7 +9,6 @@ namespace VibyApp.UI.Views
     /// </summary>
     public partial class RegisterView : UserControl
     {
-        private bool _showPassword = false;
         public RegisterView()
         {
             InitializeComponent();

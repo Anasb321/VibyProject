@@ -8,11 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\VibyApp.Core\VibyApp.Core.csproj" />
+	<ProjectReference Include="..\VibyApp.DB\VibyApp.DB.csproj" />
+	<ProjectReference Include="..\VibyApp.Core\VibyApp.Core.csproj" />
+	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
   </ItemGroup>
 
 </Project>

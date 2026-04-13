@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
+using VibyApp.DB.Data;
+using VibyApp.DB.Repository;
+using VibyApp.DB.Services;
 
 namespace VibyApp.ViewModels
 {
@@ -25,16 +28,48 @@ namespace VibyApp.ViewModels
             _mainVM = mainVM;
         }
 
-        public void LoginAction(string password)
+        public async Task LoginAction(string password)
         {
-            if (Email == "test@gmail.com" && password == "1234")
+            ErrorMessage = "";
+
+            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(password))
             {
-                ErrorMessage = "";
-                _mainVM.CurrentView = new HomeViewModel();
+                ErrorMessage = "Veuillez remplir tous les champs.";
+                return;
             }
-            else
+
+            try
             {
-                ErrorMessage = "Email ou mot de passe invalide";
+                var optionsBuilder = new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<VibyDbContext>();
+                optionsBuilder.UseSqlite("Data Source=VibyApp.db");
+
+                using var dbContext = new VibyDbContext(optionsBuilder.Options);
+                var userRepository = new UserRepository(dbContext);
+
+                var userFound = userRepository.ObtenirParEmail(Email);
+
+                if (userFound != null)
+                {
+                    var isConnected = userRepository.VerifierConnexion(userFound.UserName, password);
+
+                    if (isConnected != null)
+                    {
+                        
+                        _mainVM.CurrentView = new HomeViewModel();
+                    }
+                    else
+                    {
+                        ErrorMessage = "Mot de passe ou email incorrect.";
+                    }
+                }
+                else
+                {
+                    ErrorMessage = "Mot de passe ou email incorrect.";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ErrorMessage = "Erreur technique : " + ex.Message;
             }
         }
 

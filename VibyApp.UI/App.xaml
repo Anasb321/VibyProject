@@ -27,7 +27,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
+
             <DataTemplate DataType="{x:Type vm:HomeViewModel}">
                 <views:HomeView />
             </DataTemplate>

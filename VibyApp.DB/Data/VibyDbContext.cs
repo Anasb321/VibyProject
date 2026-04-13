@@ -46,6 +46,7 @@ namespace VibyApp.DB.Data
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
