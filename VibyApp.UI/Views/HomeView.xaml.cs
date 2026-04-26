@@ -67,8 +67,7 @@ public partial class HomeView : UserControl, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-
-    // Ces méthodes doivent être dans la classe, pas dans une autre méthode !
+    
     public event PropertyChangedEventHandler PropertyChanged;
 
     private async void HomeView_Loaded(object sender, RoutedEventArgs e)
@@ -77,8 +76,7 @@ public partial class HomeView : UserControl, INotifyPropertyChanged
         {
             IsLoading = true;
             var (tracks, artists) = await _deezerService.GetTop10Async();
-
-            // On vide et on remplit les collections
+            
             TopTracks.Clear();
             foreach (var track in tracks) TopTracks.Add(track);
 
@@ -87,21 +85,19 @@ public partial class HomeView : UserControl, INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            // Log l'erreur si besoin : Console.WriteLine(ex.Message);
+            Console.WriteLine(ex);
         }
         finally
         {
             IsLoading = false;
         }
-    } // Fin de HomeView_Loaded
+    } 
 
     protected void OnPropertyChanged([CallerMemberName] string name = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
-} // Fin de la classe HomeView
-
-// --- MODELS ---
+} 
 public class DeezerChartResponse
 {
     [JsonPropertyName("tracks")] public ChartSection<Track> Tracks { get; set; }
