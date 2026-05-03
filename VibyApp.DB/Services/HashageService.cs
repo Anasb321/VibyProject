@@ -1,10 +1,8 @@
-﻿using BCrypt.Net;
-
-namespace VibyApp.DB.Services
+﻿namespace VibyApp.DB.Services
 {
     public static class HashageService
     {
- 
+
         public static string HacherMDP(string motDePasse)
         {
             return BCrypt.Net.BCrypt.HashPassword(motDePasse);

@@ -5,7 +5,7 @@
 namespace VibyApp.DB.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,11 +16,13 @@ namespace VibyApp.DB.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Artist = table.Column<string>(type: "TEXT", nullable: false),
-                    Duration = table.Column<string>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Artist = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Duration = table.Column<int>(type: "INTEGER", nullable: false),
                     TrackPicture = table.Column<string>(type: "TEXT", nullable: false),
-                    ArtistPicture = table.Column<string>(type: "TEXT", nullable: false)
+                    ArtistPicture = table.Column<string>(type: "TEXT", nullable: false),
+                    DeezerId = table.Column<long>(type: "INTEGER", nullable: false),
+                    PreviewUrl = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,10 +35,10 @@ namespace VibyApp.DB.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 75, nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 75, nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 75, nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     MotDePasse = table.Column<string>(type: "TEXT", nullable: false),
                     IsAdmin = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -51,8 +53,8 @@ namespace VibyApp.DB.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     PlaylistPicture = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -91,6 +93,11 @@ namespace VibyApp.DB.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "FirstName", "IsAdmin", "LastName", "MotDePasse", "UserName" },
+                values: new object[] { 1, "test@gmail.com", "Administrateur", true, "Vibe", "$2a$11$vi3GsBHzj2oWW/M/yvHJEemgtXbFAWMzlRZrG5wkTV.i6w4cUmtYS", "admin" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Playlists_UserId",
                 table: "Playlists",
@@ -100,6 +107,24 @@ namespace VibyApp.DB.Migrations
                 name: "IX_PlaylistTrack_TracksId",
                 table: "PlaylistTrack",
                 column: "TracksId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tracks_DeezerId",
+                table: "Tracks",
+                column: "DeezerId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserName",
+                table: "Users",
+                column: "UserName",
+                unique: true);
         }
 
         /// <inheritdoc />

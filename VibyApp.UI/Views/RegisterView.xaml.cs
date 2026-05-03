@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using VibyApp.ViewModels;
+using VibyApp.UI.ViewModels;
 
 namespace VibyApp.UI.Views
 {
-    /// <summary>
-    /// Interaction logic for RegisterView.xaml
-    /// </summary>
     public partial class RegisterView : UserControl
     {
         public RegisterView()
@@ -26,11 +11,52 @@ namespace VibyApp.UI.Views
             InitializeComponent();
         }
 
-        private void Login_Click(object sender, RoutedEventArgs e)
+        private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (this.DataContext is RegisterViewModel vm)
             {
-                vm.GoToLogin();
+                vm.Password = ((PasswordBox)sender).Password;
+            }
+        }
+
+        private void txtConfirmPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is RegisterViewModel vm)
+            {
+                vm.ConfirmPassword = ((PasswordBox)sender).Password;
+            }
+        }
+
+        private void TogglePassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtPassword.Visibility == Visibility.Visible)
+            {
+                // Passer en mode visible
+                txtPasswordVisible.Text = txtPassword.Password;
+                txtPassword.Visibility = Visibility.Collapsed;
+                txtPasswordVisible.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // Passer en mode caché
+                txtPassword.Password = txtPasswordVisible.Text;
+                txtPasswordVisible.Visibility = Visibility.Collapsed;
+                txtPassword.Visibility = Visibility.Visible;
+            }
+        }
+        private void ToggleConfirmPassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtConfirmPassword.Visibility == Visibility.Visible)
+            {
+                txtConfirmPasswordVisible.Text = txtConfirmPassword.Password;
+                txtConfirmPassword.Visibility = Visibility.Collapsed;
+                txtConfirmPasswordVisible.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                txtConfirmPassword.Password = txtConfirmPasswordVisible.Text;
+                txtConfirmPasswordVisible.Visibility = Visibility.Collapsed;
+                txtConfirmPassword.Visibility = Visibility.Visible;
             }
         }
     }

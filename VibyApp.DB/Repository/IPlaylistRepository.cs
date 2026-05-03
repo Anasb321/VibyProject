@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VibyApp.DB.Models;
+﻿using VibyApp.DB.Models;
 
 namespace VibyApp.DB.Repository
 {
 
     public interface IPlaylistRepository
     {
-        List<Playlist> ObtenirToutParUtilisateur(int userId);
-        Playlist? ObtenirParId(int id);
-        void Ajouter(Playlist playlist);
-        void Modifier(Playlist playlist);
-        void Supprimer(int id);
-        void AjouterTrackAPlaylist(int playlistId, int trackId);
-        void RetirerTrackDePlaylist(int playlistId, int trackId);
-        List<Track> ObtenirTracksDePlaylist(int playlistId);
+        // Task for asynchronous operations
+        Task<List<Playlist>> GetAllByUserIdAsync(int userId);
+        Task<Playlist?> GetByIdAsync(int id);
+        Task AddAsync(Playlist playlist);
+        Task UpdateAsync(Playlist playlist);
+        Task DeleteAsync(int id);
+
+        // Task for managing tracks in playlists
+        Task AddTrackToPlaylistAsync(int playlistId, int trackId);
+        Task RemoveTrackFromPlaylistAsync(int playlistId, int trackId);
+        Task<List<Track>> GetTracksFromPlaylistAsync(int playlistId);
     }
 
 }

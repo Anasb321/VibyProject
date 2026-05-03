@@ -1,0 +1,33 @@
+﻿namespace VibyApp.API
+{
+    using System.Net.Http;
+    using System.Text.Json;
+
+    public class DeezerGenre
+    {
+        private readonly HttpClient _httpClient = new HttpClient();
+
+        public async Task<List<string>> GetGenresAsync()
+        {
+            try
+            {
+                string json = await _httpClient.GetStringAsync("https://api.deezer.com/genre");
+
+                using JsonDocument doc = JsonDocument.Parse(json);
+                var genres = new List<string>();
+
+                foreach (var element in doc.RootElement.GetProperty("data").EnumerateArray())
+                {
+                    genres.Add(element.GetProperty("name").GetString());
+                }
+
+                return genres;
+            }
+            catch (Exception e)
+            {
+                // En cas d'erreur (pas d'internet, etc.)
+                return new List<string> { "Erreur de chargement" };
+            }
+        }
+    }
+}
