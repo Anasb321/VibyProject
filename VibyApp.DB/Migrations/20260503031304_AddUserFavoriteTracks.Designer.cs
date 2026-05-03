@@ -10,8 +10,8 @@ using VibyApp.DB.Data;
 namespace VibyApp.DB.Migrations
 {
     [DbContext(typeof(VibyDbContext))]
-    [Migration("20260413001500_SecureAdminPasswordAndAddRepository")]
-    partial class SecureAdminPasswordAndAddRepository
+    [Migration("20260503031304_AddUserFavoriteTracks")]
+    partial class AddUserFavoriteTracks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,21 @@ namespace VibyApp.DB.Migrations
                     b.HasIndex("TracksId");
 
                     b.ToTable("PlaylistTrack");
+                });
+
+            modelBuilder.Entity("TrackUser", b =>
+                {
+                    b.Property<int>("FavoriteTracksId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FavoritedByUsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FavoriteTracksId", "FavoritedByUsersId");
+
+                    b.HasIndex("FavoritedByUsersId");
+
+                    b.ToTable("UserFavoriteTracks", (string)null);
                 });
 
             modelBuilder.Entity("VibyApp.DB.Models.Playlist", b =>
@@ -147,7 +162,7 @@ namespace VibyApp.DB.Migrations
                             FirstName = "Administrateur",
                             IsAdmin = true,
                             LastName = "Vibe",
-                            MotDePasse = "$2a$11$Q0xfr88HMRoE84ZTLkbPluIPqRQ2Zrv4DBjMRBweB21fUJkHi9JUm",
+                            MotDePasse = "$2a$11$MuU2pHv04GndUqx6PaIW2erIG9WLczpAG.OaztYrzHKP2xpJ35Vfe",
                             UserName = "admin"
                         });
                 });
@@ -163,6 +178,21 @@ namespace VibyApp.DB.Migrations
                     b.HasOne("VibyApp.DB.Models.Track", null)
                         .WithMany()
                         .HasForeignKey("TracksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TrackUser", b =>
+                {
+                    b.HasOne("VibyApp.DB.Models.Track", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteTracksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VibyApp.DB.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritedByUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

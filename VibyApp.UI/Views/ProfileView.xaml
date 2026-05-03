@@ -3,9 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:VibyApp.UI.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900"
-             Background="#0F111A">
+             d:DesignHeight="700" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance Type=vm:ProfileViewModel}"
+             Background="#07090F">
+
+    <UserControl.Resources>
+
+        <!-- Sidebar Button Style -->
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#94A3B8"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1F2937"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="Tag" Value="Active">
+                    <Setter Property="Background" Value="#1F2937"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -13,87 +51,105 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Background="#161922" BorderBrush="#222" BorderThickness="0,0,1,0">
-            <DockPanel Margin="15,20">
+        <!-- Sidebar -->
+        <Border Background="#07090F" BorderBrush="#1F2937" BorderThickness="0,0,1,0">
+            <DockPanel Margin="20,30">
                 <StackPanel DockPanel.Dock="Top">
-                    <TextBlock Text="VIBY" Foreground="White" FontSize="26" FontWeight="ExtraBold" Margin="10,0,10,40"/>
-                    <Button Content="🏠 Accueil" Style="{StaticResource SidebarButtonStyle}" Click="Home_Click"/>
-                    <Button Content="🔍 Explorer" Style="{StaticResource SidebarButtonStyle}"/>
-                    <Button Content="📚 Bibliothèque" Style="{StaticResource SidebarButtonStyle}"/>
-                    <Button Content="👤 Profil" Style="{StaticResource SidebarButtonStyle}" Foreground="White" Background="#1F2937"/>
+                    <TextBlock Text="VIBY" Foreground="#3B82F6" FontSize="32" FontWeight="Black" Margin="10,0,0,40" />
+                    <Button Content="🏠   Accueil" Style="{StaticResource SidebarButtonStyle}" 
+                            Command="{Binding DataContext.MoveToHomeCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="🔍   Explorer" Style="{StaticResource SidebarButtonStyle}" 
+                            Command="{Binding DataContext.MoveToExploreCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="📚   Bibliothèque" Style="{StaticResource SidebarButtonStyle}" 
+                            Command="{Binding DataContext.MoveToLibraryCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="👤   Profil" Style="{StaticResource SidebarButtonStyle}" Tag="Active" Margin="0,15,0,0" 
+                            Command="{Binding DataContext.MoveToProfileCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                    <TextBlock Text="VOS MUSIQUES FAVORITES" Foreground="#4B5563" FontSize="11" FontWeight="Bold" Margin="15,0,0,10"/>
-                    <Button Content="❤️ Titres likés" Style="{StaticResource SidebarButtonStyle}"/>
-                    <Button Content="📻 Albums" Style="{StaticResource SidebarButtonStyle}"/>
-                    <Button Content="👤 Artistes" Style="{StaticResource SidebarButtonStyle}"/>
+                    <TextBlock Text="VOS MUSIQUES" Foreground="#475569" FontSize="11" FontWeight="Bold" Margin="15,0,0,10" Opacity="0.6"/>
+                    <Button Content="❤️  Titres likés" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📻  Albums" Style="{StaticResource SidebarButtonStyle}"/>
                 </StackPanel>
-                <Grid />
             </DockPanel>
         </Border>
 
+        <!-- Main Content Area -->
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40">
+            <StackPanel Margin="60,40">
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,30">
-                    <Border Width="100" Height="100" CornerRadius="50">
+                <!-- Header Profil -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,40">
+                    <Border Width="120" Height="120" CornerRadius="60" BorderBrush="#3B82F6" BorderThickness="2">
                         <Border.Background>
-                            <ImageBrush ImageSource="https://api.dicebear.com/7.x/avataaars/png?seed=Alex" Stretch="UniformToFill"/>
+                            <ImageBrush ImageSource="https://api.dicebear.com/7.x/avataaars/png?seed=Anas" Stretch="UniformToFill"/>
                         </Border.Background>
                     </Border>
-                    <StackPanel Margin="25,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Username}" Foreground="White" FontSize="28" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding UserEmail}" Foreground="#9CA3AF" FontSize="16"/>
-                        <Border Background="#FFD700" HorizontalAlignment="Left" CornerRadius="4" Padding="8,2" Margin="0,8,0,0">
-                            <TextBlock Text="MEMBRE PREMIUM" Foreground="Black" FontSize="10" FontWeight="Bold"/>
+
+                    <StackPanel Margin="30,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Username, FallbackValue='Utilisateur'}" Foreground="White" FontSize="36" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding UserEmail, FallbackValue='anas@student.cvm.qc.ca'}" Foreground="#94A3B8" FontSize="16" Margin="0,5,0,0"/>
+                        <Border Background="#3B82F6" HorizontalAlignment="Left" CornerRadius="12" Padding="12,4" Margin="0,15,0,0">
+                            <TextBlock Text="MEMBRE PREMIUM" Foreground="White" FontSize="10" FontWeight="Black"/>
                         </Border>
                     </StackPanel>
                 </StackPanel>
 
-                <Separator Background="#222" Margin="0,10,0,30"/>
+                <Separator Background="#1F2937" Margin="0,0,0,40"/>
 
-                <TextBlock Text="Informations personnelles" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                <!-- Informations -->
+                <TextBlock Text="Informations personnelles" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,25"/>
 
-                <UniformGrid Columns="2" Margin="0,0,0,30">
+                <UniformGrid Columns="2" Margin="0,0,0,40">
                     <StackPanel Margin="0,10">
-                        <TextBlock Text="Membre depuis" Foreground="#4B5563" FontSize="12"/>
-                        <TextBlock Text="Octobre 2019" Foreground="White" FontSize="15" Margin="0,5"/>
+                        <TextBlock Text="Membre depuis" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="Mai 2026" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="0,8"/>
                     </StackPanel>
                     <StackPanel Margin="0,10">
-                        <TextBlock Text="Pays" Foreground="#4B5563" FontSize="12"/>
-                        <TextBlock Text="France" Foreground="White" FontSize="15" Margin="0,5"/>
+                        <TextBlock Text="Localisation" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="Montréal, Canada" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="0,8"/>
                     </StackPanel>
                 </UniformGrid>
 
-                <TextBlock Text="Préférences de l'application" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,20,0,20"/>
+                <!-- Paramètres -->
+                <TextBlock Text="Préférences" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
 
-                <Border Background="#161922" CornerRadius="12" Padding="20">
+                <Border Background="#0F172A" CornerRadius="16" Padding="25" BorderBrush="#1F2937" BorderThickness="1">
                     <StackPanel>
-                        <DockPanel Margin="0,10">
-                            <TextBlock Text="Thème Sombre" Foreground="White" VerticalAlignment="Center"/>
-                            <CheckBox IsChecked="True" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+                        <DockPanel Margin="0,5">
+                            <StackPanel>
+                                <TextBlock Text="Mode Sombre" Foreground="White" FontSize="15" FontWeight="SemiBold"/>
+                                <TextBlock Text="Optimise l'interface pour les environnements sombres" Foreground="#64748B" FontSize="12" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <CheckBox IsChecked="True" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </DockPanel>
-                        <Separator Background="#222" Margin="0,15"/>
-                        <DockPanel Margin="0,10">
-                            <TextBlock Text="Langue" Foreground="White" VerticalAlignment="Center"/>
-                            <TextBlock Text="Français" Foreground="#9CA3AF" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+
+                        <Separator Background="#1F2937" Margin="0,20"/>
+
+                        <DockPanel Margin="0,5">
+                            <StackPanel>
+                                <TextBlock Text="Qualité Audio" Foreground="White" FontSize="15" FontWeight="SemiBold"/>
+                                <TextBlock Text="Haute fidélité (Lossless)" Foreground="#64748B" FontSize="12" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <TextBlock Text="Modifier" Foreground="#3B82F6" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand"/>
                         </DockPanel>
                     </StackPanel>
                 </Border>
 
-                <StackPanel Orientation="Horizontal" Margin="0,40,0,0">
-                    <Button Content="Modifier le profil" Height="40" Width="160" Background="#1DB954" Foreground="White" BorderThickness="0" FontWeight="Bold">
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
+                    <Button Content="Modifier le profil" Height="45" Width="180" Background="#3B82F6" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="20"/>
+                                <Setter Property="CornerRadius" Value="22"/>
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button Content="Déconnexion" Height="40" Width="160" Margin="15,0" Background="#E74C3C" Foreground="White" BorderThickness="0" FontWeight="Bold">
+
+                    <Button Content="Déconnexion" Height="45" Width="180" Margin="20,0" Background="Transparent" Foreground="#EF4444" BorderBrush="#EF4444" BorderThickness="1" FontWeight="Bold" Cursor="Hand">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="20"/>
+                                <Setter Property="CornerRadius" Value="22"/>
                             </Style>
                         </Button.Resources>
                     </Button>

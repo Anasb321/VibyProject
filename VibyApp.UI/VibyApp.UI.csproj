@@ -14,12 +14,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VibyApp.DB\VibyApp.DB.csproj" />
-    <ProjectReference Include="..\VibyApp.ViewModels\VibyApp.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="viby.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

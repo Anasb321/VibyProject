@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using VibyApp.ViewModels;
+using VibyApp.UI.ViewModels;
 
 namespace VibyApp.UI.Views
 {
@@ -15,7 +15,7 @@ namespace VibyApp.UI.Views
         {
             if (Application.Current.MainWindow.DataContext is MainViewModel mainVM)
             {
-                mainVM.NavigateToHome();
+                mainVM.MoveToHomeCommand.Execute(null);
             }
         }
     }

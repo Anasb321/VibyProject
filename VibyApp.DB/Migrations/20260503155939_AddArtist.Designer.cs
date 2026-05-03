@@ -10,14 +10,29 @@ using VibyApp.DB.Data;
 namespace VibyApp.DB.Migrations
 {
     [DbContext(typeof(VibyDbContext))]
-    [Migration("20260412221542_FinalModelConstraints")]
-    partial class FinalModelConstraints
+    [Migration("20260503155939_AddArtist")]
+    partial class AddArtist
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.13");
+
+            modelBuilder.Entity("ArtistUser", b =>
+                {
+                    b.Property<int>("FavoriteArtistsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FollowedByUsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FavoriteArtistsId", "FollowedByUsersId");
+
+                    b.HasIndex("FollowedByUsersId");
+
+                    b.ToTable("UserFavoriteArtists", (string)null);
+                });
 
             modelBuilder.Entity("PlaylistTrack", b =>
                 {
@@ -32,6 +47,41 @@ namespace VibyApp.DB.Migrations
                     b.HasIndex("TracksId");
 
                     b.ToTable("PlaylistTrack");
+                });
+
+            modelBuilder.Entity("TrackUser", b =>
+                {
+                    b.Property<int>("FavoriteTracksId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FavoritedByUsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FavoriteTracksId", "FavoritedByUsersId");
+
+                    b.HasIndex("FavoritedByUsersId");
+
+                    b.ToTable("UserFavoriteTracks", (string)null);
+                });
+
+            modelBuilder.Entity("VibyApp.DB.Models.Artist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ArtistPicture")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Artists");
                 });
 
             modelBuilder.Entity("VibyApp.DB.Models.Playlist", b =>
@@ -104,10 +154,12 @@ namespace VibyApp.DB.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasMaxLength(75)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsAdmin")
@@ -115,6 +167,7 @@ namespace VibyApp.DB.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasMaxLength(75)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MotDePasse")
@@ -123,9 +176,16 @@ namespace VibyApp.DB.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
+                        .HasMaxLength(75)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -137,9 +197,24 @@ namespace VibyApp.DB.Migrations
                             FirstName = "Administrateur",
                             IsAdmin = true,
                             LastName = "Vibe",
-                            MotDePasse = "1234",
+                            MotDePasse = "$2a$11$azVxUWCLSpeP2pdjmbJe2ub3FXQiF9M8/lnjga85Vcy.UUsXaippa",
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("ArtistUser", b =>
+                {
+                    b.HasOne("VibyApp.DB.Models.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteArtistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VibyApp.DB.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("FollowedByUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PlaylistTrack", b =>
@@ -153,6 +228,21 @@ namespace VibyApp.DB.Migrations
                     b.HasOne("VibyApp.DB.Models.Track", null)
                         .WithMany()
                         .HasForeignKey("TracksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TrackUser", b =>
+                {
+                    b.HasOne("VibyApp.DB.Models.Track", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteTracksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VibyApp.DB.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritedByUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,12 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using VibyApp.ViewModels;
 
 namespace VibyApp.UI.Views
 {
-    /// <summary>
-    /// Interaction logic for HomeView.xaml
-    /// </summary>
     public partial class HomeView : UserControl
     {
         public HomeView()
@@ -15,11 +11,44 @@ namespace VibyApp.UI.Views
             this.DataContext = new VibyApp.ViewModels.HomeViewModel();
         }
 
-        private void Profile_Click(object sender, RoutedEventArgs e)
+        // --- LOGIQUE DE SCROLLING ---
+        private void ScrollTracksLeft_Click(object sender, RoutedEventArgs e) =>
+            TracksScroll.ScrollToHorizontalOffset(TracksScroll.HorizontalOffset - 600);
+
+        private void ScrollTracksRight_Click(object sender, RoutedEventArgs e) =>
+            TracksScroll.ScrollToHorizontalOffset(TracksScroll.HorizontalOffset + 600);
+
+        private void ScrollArtistsLeft_Click(object sender, RoutedEventArgs e) =>
+            ArtistsScroll.ScrollToHorizontalOffset(ArtistsScroll.HorizontalOffset - 600);
+
+        private void ScrollArtistsRight_Click(object sender, RoutedEventArgs e) =>
+            ArtistsScroll.ScrollToHorizontalOffset(ArtistsScroll.HorizontalOffset + 600);
+
+        private void ScrollGenresLeft_Click(object sender, RoutedEventArgs e) =>
+            GenresScroll.ScrollToHorizontalOffset(GenresScroll.HorizontalOffset - 600);
+
+        private void ScrollGenresRight_Click(object sender, RoutedEventArgs e) =>
+            GenresScroll.ScrollToHorizontalOffset(GenresScroll.HorizontalOffset + 600);
+
+        private void Scroll_Changed(object sender, ScrollChangedEventArgs e)
         {
-            if (Application.Current.MainWindow.DataContext is MainViewModel mainVM)
+            if (sender is ScrollViewer sv)
             {
-                mainVM.NavigateToProfile();
+                if (sv == TracksScroll)
+                {
+                    TracksLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                    TracksRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
+                }
+                else if (sv == ArtistsScroll)
+                {
+                    ArtistsLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                    ArtistsRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
+                }
+                else if (sv == GenresScroll)
+                {
+                    GenresLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                    GenresRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
+                }
             }
         }
     }
