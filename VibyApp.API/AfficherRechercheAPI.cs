@@ -2,30 +2,39 @@
 {
     using System.Net.Http;
     using System.Text.Json;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class DeezerRechercher
     {
         private readonly HttpClient _httpClient = new HttpClient();
 
-        public async Task<List<string>> GetGenresAsync()
+        
+        public async Task<List<string>> SearchTracksAsync(string query)
         {
+            if (string.IsNullOrWhiteSpace(query)) return new List<string>();
+
             try
             {
-                string json = await _httpClient.GetStringAsync("https://api.deezer.com/genre");
+                string url = $"https://api.deezer.com/search?q={query}";
+                string json = await _httpClient.GetStringAsync(url);
 
                 using JsonDocument doc = JsonDocument.Parse(json);
-                var genres = new List<string>();
+                var resultats = new List<string>();
 
                 foreach (var element in doc.RootElement.GetProperty("data").EnumerateArray())
-                {
-                    genres.Add(element.GetProperty("name").GetString());
+                {  
+                    string title = element.GetProperty("title").GetString();
+                    string artist = element.GetProperty("artist").GetProperty("name").GetString();
+
+                    resultats.Add($"{title} - {artist}");
                 }
 
-                return genres;
+                return resultats;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return new List<string> { "Erreur de chargement" };
+                return new List<string> { "Aucun résultat trouvé" };
             }
         }
     }
