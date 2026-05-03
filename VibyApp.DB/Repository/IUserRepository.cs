@@ -1,6 +1,4 @@
-﻿using VibyApp.DB.Data;
-using VibyApp.DB.Models;
-using VibyApp.DB.Services;
+﻿using VibyApp.DB.Models;
 
 namespace VibyApp.DB.Repository
 {
@@ -17,7 +15,7 @@ namespace VibyApp.DB.Repository
 
         Task AddAsync(User user);
         Task UpdateAsync(User user);
-        Task DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id);
 
         // Check for unique constraints on username and email during registration
         Task<bool> ExistsAsync(string userName, string email);

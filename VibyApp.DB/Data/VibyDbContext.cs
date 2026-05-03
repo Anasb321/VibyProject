@@ -53,6 +53,15 @@ namespace VibyApp.DB.Data
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.FavoriteTracks)
+                .WithMany(t => t.FavoritedByUsers)
+                .UsingEntity(j => j.ToTable("UserFavoriteTracks"));
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.FavoriteArtists)
+                .WithMany(a => a.FollowedByUsers)
+                .UsingEntity(j => j.ToTable("UserFavoriteArtists"));
         }
 
         private void ConfigureMusicRelationships(ModelBuilder modelBuilder)
@@ -73,15 +82,7 @@ namespace VibyApp.DB.Data
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.FavoriteTracks)
-                .WithMany(t => t.FavoritedByUsers)
-                .UsingEntity(j => j.ToTable("UserFavoriteTracks"));
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.FavoriteArtists)
-                .WithMany(a => a.FollowedByUsers)
-                .UsingEntity(j => j.ToTable("UserFavoriteArtists"));
 
         private void SeedInitialData(ModelBuilder modelBuilder)
         {
