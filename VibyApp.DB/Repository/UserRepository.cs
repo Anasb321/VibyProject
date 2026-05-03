@@ -96,5 +96,25 @@ namespace VibyApp.DB.Repository
 
             return false;
         }
+
+        public async Task<bool> RetirerMusiqueDesFavorisAsync(int userId, int trackId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteTracks)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return false;
+
+            var trackToRemove = user.FavoriteTracks.FirstOrDefault(t => t.Id == trackId);
+
+            if (trackToRemove != null)
+            {
+                user.FavoriteTracks.Remove(trackToRemove);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

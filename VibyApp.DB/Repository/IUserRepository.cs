@@ -28,5 +28,7 @@ namespace VibyApp.DB.Repository
         Task<bool> UserExisteDejaAsync(string userName, string email);
 
         Task<bool> AjouterMusiqueAuxFavorisAsync(int userId, int trackId);
+
+        Task<bool> RetirerMusiqueDesFavorisAsync(int userId, int trackId);
     }
 }
