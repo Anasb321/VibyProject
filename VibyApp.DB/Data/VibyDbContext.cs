@@ -46,6 +46,11 @@ namespace VibyApp.DB.Data
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.FavoriteTracks)
+                .WithMany(t => t.FavoritedByUsers)
+                .UsingEntity(j => j.ToTable("UserFavoriteTracks"));
+
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,

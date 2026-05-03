@@ -23,5 +23,6 @@ namespace VibyApp.DB.Models
         public string ArtistPicture { get; set; } = string.Empty;
 
         public List<Playlist> Playlists { get; set; } = new(); // Un track peut etre dans plusieurs playlist a la fois
+        public List<User> FavoritedByUsers { get; set; } = new();
     }
 }

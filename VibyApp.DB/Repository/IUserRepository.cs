@@ -1,21 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using VibyApp.DB.Data;
 using VibyApp.DB.Models;
+using VibyApp.DB.Services;
 
 namespace VibyApp.DB.Repository
 {
     public interface IUserRepository
     {
-        List<User> ObtenirTout();
 
-        User? ObtenirParId(int id);
+        Task<List<User>> ObtenirToutAsync();
 
-        User? ObtenirParUserName(string userName);
-        User? ObtenirParEmail(string email);
+        Task<User?> ObtenirParIdAsync(int id);
 
-        void Ajouter(User user);
-        void Modifier(User user);
-        void Supprimer(int id);
+        Task<User?> ObtenirParUserNameAsync(string userName);
 
-        bool ExisteDeja(string userName, string email);
+        Task<User?> ObtenirParEmailAsync(string email);
+
+        Task AjouterUserAsync(User user);
+
+        Task<User?> VerifierConnexionAsync(string userName, string motDePasseSaisi);
+
+        Task ModifierUserAsync(User user);
+
+        Task SupprimerUserAsync(int id);
+
+        Task<bool> UserExisteDejaAsync(string userName, string email);
+
+        Task<bool> AjouterMusiqueAuxFavorisAsync(int userId, int trackId);
     }
 }

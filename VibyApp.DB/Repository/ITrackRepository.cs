@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,14 @@ namespace VibyApp.DB.Repository
 {
     public interface ITrackRepository
     {
-        List<Track> ObtenirTout();
-        Track? ObtenirParId(int id);
-        void Ajouter(Track track);
-        void Modifier(Track track);
-        void Supprimer(int id);
+        Task<List<Track>> ObtenirToutAsync();
+
+        Task<Track?> ObtenirParIdAsync(int id);
+
+        Task AjouterAsync(Track track);
+
+        Task ModifierAsync(Track track);
+
+        Task SupprimerAsync(int id);
     }
 }

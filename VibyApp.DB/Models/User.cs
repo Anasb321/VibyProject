@@ -30,5 +30,7 @@ namespace VibyApp.DB.Models
         public bool IsAdmin { get; set; }
 
         public List<Playlist> Playlists { get; set; } = new(); // Un user peut avoir plusieurs playlist
+
+        public List<Track> FavoriteTracks { get; set; } = new();
     }
 }

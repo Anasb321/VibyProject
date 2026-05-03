@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,21 @@ namespace VibyApp.DB.Repository
 
     public interface IPlaylistRepository
     {
-        List<Playlist> ObtenirToutParUtilisateur(int userId);
-        Playlist? ObtenirParId(int id);
-        void Ajouter(Playlist playlist);
-        void Modifier(Playlist playlist);
-        void Supprimer(int id);
-        void AjouterTrackAPlaylist(int playlistId, int trackId);
-        void RetirerTrackDePlaylist(int playlistId, int trackId);
-        List<Track> ObtenirTracksDePlaylist(int playlistId);
+        Task<List<Playlist>> ObtenirToutParUtilisateurAsync(int userId);
+
+        Task<Playlist?> ObtenirParIdAsync(int id);
+
+        Task AjouterAsync(Playlist playlist);
+
+        Task ModifierAsync(Playlist playlist);
+
+        Task SupprimerAsync(int id);
+
+        Task AjouterTrackAPlaylistAsync(int playlistId, int trackId);
+
+        Task RetirerTrackDePlaylistAsync(int playlistId, int trackId);
+
+        Task<List<Track>> ObtenirTracksDePlaylistAsync(int playlistId);
     }
 
 }

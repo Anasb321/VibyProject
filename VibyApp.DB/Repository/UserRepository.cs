@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VibyApp.DB.Data;
 using VibyApp.DB.Models;
 using VibyApp.DB.Services;
@@ -15,59 +17,84 @@ namespace VibyApp.DB.Repository
             _context = context;
         }
 
-        public List<User> ObtenirTout() {
-            return _context.Users.ToList();
-        }
-
-        public User? ObtenirParId(int id) { 
-            return _context.Users.Find(id); 
-        }
-
-        public User? ObtenirParUserName(string userName)
+        public async Task<List<User>> ObtenirToutAsync()
         {
-            return _context.Users.FirstOrDefault(u => u.UserName == userName);
+            return await _context.Users.ToListAsync();
         }
 
-        public User? ObtenirParEmail(string email)
+        public async Task<User?> ObtenirParIdAsync(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
+            return await _context.Users.FindAsync(id);
         }
 
-        public void Ajouter(User user)
+        public async Task<User?> ObtenirParUserNameAsync(string userName)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+        }
+
+        public async Task<User?> ObtenirParEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task AjouterUserAsync(User user)
         {
             user.MotDePasse = HashageService.HacherMDP(user.MotDePasse);
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public User? VerifierConnexion(string userName, string motDePasseSaisi)
+        public async Task<User?> VerifierConnexionAsync(string userName, string motDePasseSaisi)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == userName);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
             if (user == null) return null;
+
             return HashageService.VerifierMDP(motDePasseSaisi, user.MotDePasse) ? user : null;
         }
 
-        public void Modifier(User user)
+        public async Task ModifierUserAsync(User user)
         {
             _context.Users.Update(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Supprimer(int id)
+        public async Task SupprimerUserAsync(int id)
         {
-            var user = _context.Users.Find(id);
+            var user = await _context.Users.FindAsync(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public bool ExisteDeja(string userName, string email)
+        public async Task<bool> UserExisteDejaAsync(string userName, string email)
         {
-            return _context.Users.Any(u => u.UserName.ToLower() == userName.ToLower() || u.Email.ToLower() == email.ToLower());
+            return await _context.Users.AnyAsync(u =>
+                u.UserName.ToLower() == userName.ToLower() ||
+                u.Email.ToLower() == email.ToLower());
+        }
+
+        public async Task<bool> AjouterMusiqueAuxFavorisAsync(int userId, int trackId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteTracks)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var track = await _context.Tracks.FindAsync(trackId);
+
+            if (user == null || track == null) return false;
+
+            if (!user.FavoriteTracks.Any(t => t.Id == trackId))
+            {
+                user.FavoriteTracks.Add(track);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

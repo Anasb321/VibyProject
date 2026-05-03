@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VibyApp.DB.Data;
 using VibyApp.DB.Models;
 
@@ -15,67 +16,67 @@ namespace VibyApp.DB.Repository
             _context = context;
         }
 
-        public List<Playlist> ObtenirToutParUtilisateur(int userId)
+        public async Task<List<Playlist>> ObtenirToutParUtilisateurAsync(int userId)
         {
-            return _context.Playlists
+            return await _context.Playlists
                 .AsNoTracking()
                 .Where(p => p.UserId == userId)
                 .Include(p => p.Tracks)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Playlist? ObtenirParId(int id)
+        public async Task<Playlist?> ObtenirParIdAsync(int id)
         {
-            return _context.Playlists
+            return await _context.Playlists
                 .Include(p => p.Tracks)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Ajouter(Playlist playlist)
+        public async Task AjouterAsync(Playlist playlist)
         {
-            _context.Playlists.Add(playlist);
-            _context.SaveChanges();
+            await _context.Playlists.AddAsync(playlist);
+            await _context.SaveChangesAsync();
         }
 
-        public void Modifier(Playlist playlist)
+        public async Task ModifierAsync(Playlist playlist)
         {
             _context.Playlists.Update(playlist);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Supprimer(int id)
+        public async Task SupprimerAsync(int id)
         {
-            var playlist = _context.Playlists.Find(id);
+            var playlist = await _context.Playlists.FindAsync(id);
             if (playlist != null)
             {
                 _context.Playlists.Remove(playlist);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public void AjouterTrackAPlaylist(int playlistId, int trackId)
+        public async Task AjouterTrackAPlaylistAsync(int playlistId, int trackId)
         {
-            var playlist = _context.Playlists
+            var playlist = await _context.Playlists
                 .Include(p => p.Tracks)
-                .FirstOrDefault(p => p.Id == playlistId);
+                .FirstOrDefaultAsync(p => p.Id == playlistId);
 
-            var track = _context.Tracks.Find(trackId);
+            var track = await _context.Tracks.FindAsync(trackId);
 
             if (playlist != null && track != null)
             {
                 if (!playlist.Tracks.Any(t => t.Id == trackId))
                 {
                     playlist.Tracks.Add(track);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
         }
 
-        public void RetirerTrackDePlaylist(int playlistId, int trackId)
+        public async Task RetirerTrackDePlaylistAsync(int playlistId, int trackId)
         {
-            var playlist = _context.Playlists
+            var playlist = await _context.Playlists
                 .Include(p => p.Tracks)
-                .FirstOrDefault(p => p.Id == playlistId);
+                .FirstOrDefaultAsync(p => p.Id == playlistId);
 
             if (playlist != null)
             {
@@ -84,18 +85,18 @@ namespace VibyApp.DB.Repository
                 if (trackToRemove != null)
                 {
                     playlist.Tracks.Remove(trackToRemove);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
         }
 
-        public List<Track> ObtenirTracksDePlaylist(int playlistId)
+        public async Task<List<Track>> ObtenirTracksDePlaylistAsync(int playlistId)
         {
-            return _context.Playlists
+            return await _context.Playlists
                 .AsNoTracking()
                 .Where(p => p.Id == playlistId)
                 .SelectMany(p => p.Tracks)
-                .ToList();
+                .ToListAsync();
         }
     }
 }
