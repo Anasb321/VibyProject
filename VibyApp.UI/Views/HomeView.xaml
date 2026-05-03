@@ -3,156 +3,285 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
+             xmlns:vm="clr-namespace:VibyApp.UI.ViewModels"
+             mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1100"
              Background="#0F111A">
 
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
-
-        <Style x:Key="AlbumCard" TargetType="Border">
-            <Setter Property="CornerRadius" Value="12" />
-            <Setter Property="Background" Value="#14294a" />
-            <Setter Property="Margin" Value="8" />
-            <Setter Property="Cursor" Value="Hand" />
+        <!-- Sidebar Button Style -->
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#94A3B8"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1c3a69" />
+                    <Setter Property="Background" Value="#1F2937"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="Tag" Value="Active">
+                    <Setter Property="Background" Value="#1F2937"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ArtistCard" TargetType="Border">
-            <Setter Property="Background" Value="#335182" />
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="CornerRadius" Value="12" />
-            <Setter Property="Cursor" Value="Hand" />
+        <!-- Navigation Circular Buttons with End-of-List Feedback -->
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background" Value="#2A2D3E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Opacity" Value="1.0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="18">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.2"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3F445E"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
-        <Style x:Key="SidebarButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#9CA3AF" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="15,10" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="FontSize" Value="14" />
+        <!-- Enlarged Album Card Style -->
+        <Style x:Key="AlbumCard" TargetType="Border">
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="Background" Value="#161B2C" />
+            <Setter Property="Margin" Value="0,0,20,0" />
+            <Setter Property="Width" Value="190" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#252D48" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Genre Tile Style -->
+        <Style x:Key="GenreTile" TargetType="Button">
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Height" Value="90"/>
+            <Setter Property="Margin" Value="0,0,12,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                            <TextBlock Text="{TemplateBinding Content}" 
+                                       Foreground="White" 
+                                       FontWeight="Bold" 
+                                       FontSize="16" 
+                                       Margin="15" 
+                                       VerticalAlignment="Bottom"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="230" />
+            <ColumnDefinition Width="240" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border Background="#161922" BorderBrush="#222" BorderThickness="0,0,1,0">
-            <DockPanel Margin="15,20">
+        <!-- Sidebar -->
+        <Border Background="#07090F" BorderBrush="#1F2937" BorderThickness="0,0,1,0">
+            <DockPanel Margin="20,30">
                 <StackPanel DockPanel.Dock="Top">
-                    <TextBlock Text="VIBY" Foreground="White" FontSize="26" FontWeight="ExtraBold" Margin="10,0,10,40" />
-                    <Button Content="🏠 Accueil" Style="{StaticResource SidebarButtonStyle}" Foreground="White"
-                            Background="#1F2937" />
-                    <Button Content="🔍 Explorer" Style="{StaticResource SidebarButtonStyle}" />
-                    <Button Content="📚 Bibliothèque" Style="{StaticResource SidebarButtonStyle}" />
-                    <Button Content="👤 Profil" Style="{StaticResource SidebarButtonStyle}" />
+                    <TextBlock Text="VIBY" Foreground="#3B82F6" FontSize="32" FontWeight="Black" Margin="10,0,0,40" />
+                    <Button Content="🏠   Accueil" Style="{StaticResource SidebarButtonStyle}" Tag="Active" Command="{Binding DataContext.MoveToHomeCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="🔍   Explorer" Style="{StaticResource SidebarButtonStyle}" Command="{Binding DataContext.MoveToExploreCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="📚   Bibliothèque" Style="{StaticResource SidebarButtonStyle}" Command="{Binding DataContext.MoveToLibraryCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="👤   Profil" Style="{StaticResource SidebarButtonStyle}" Margin="0,15,0,0" Command="{Binding DataContext.MoveToProfileCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
                 </StackPanel>
+
                 <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                    <TextBlock Text="VOS MUSIQUES FAVORITES" Foreground="#4B5563" FontSize="11" FontWeight="Bold"
-                               Margin="15,0,0,10" />
-                    <Button Content="❤️ Favoris" Style="{StaticResource SidebarButtonStyle}" />
-                    <Button Content="📻 Albums" Style="{StaticResource SidebarButtonStyle}" />
-                    <Button Content="👤 Artistes" Style="{StaticResource SidebarButtonStyle}" />
+                    <TextBlock Text="VOS MUSIQUES" Foreground="#475569" FontSize="11" FontWeight="Bold" Margin="15,0,0,10" Opacity="0.6"/>
+                    <Button Content="❤️  Titres likés" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📻  Albums" Style="{StaticResource SidebarButtonStyle}"/>
                 </StackPanel>
             </DockPanel>
         </Border>
 
+        <!-- Main Content Area -->
         <Grid Grid.Column="1">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="80" />
-        <RowDefinition Height="*" /> </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-    <Border Width="400" Height="40" Background="#1A1D29" CornerRadius="20" HorizontalAlignment="Left" Margin="40,0" VerticalAlignment="Center">
-        <Grid Margin="15,0">
-            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-            <TextBlock Text="🔍" Foreground="#6B7280" VerticalAlignment="Center" Margin="0,0,10,0" />
-            <TextBox Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" CaretBrush="White" Opacity="0.5" Text="Recherche..." />
-        </Grid>
-    </Border>
+            <!-- Top Search Bar -->
+            <Border Width="450" Height="42" Background="#1A1D29" CornerRadius="12" HorizontalAlignment="Left" Margin="40,0" BorderBrush="#2D3748" BorderThickness="1">
+                <Grid Margin="15,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="🔍" Foreground="#4A5568" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBox Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" CaretBrush="White" FontSize="14"/>
+                </Grid>
+            </Border>
 
-    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,0,20">
-        <StackPanel Margin="40,0">
-            
-            <TextBlock Text="Top 10 des sons les plus écouté du moment" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,20,0,15" />
-            
-            <ItemsControl ItemsSource="{Binding TopTracks}">
-                <ItemsControl.Style>
-                    <Style TargetType="ItemsControl">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsLoading}" Value="False"><Setter Property="Visibility" Value="Visible" /></DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ItemsControl.Style>
-                <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="5" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Style="{StaticResource AlbumCard}" ClipToBounds="True">
-                            <Grid Height="260"> <Image Source="{Binding Album.CoverUrl}" Stretch="UniformToFill" Opacity="0.4">
-                                    <Image.Effect><BlurEffect Radius="40" /></Image.Effect>
-                                </Image>
-                                <Border Background="#66000000" />
-                                <Grid>
-                                    <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
-                                    <Border CornerRadius="8" Margin="12" BorderBrush="#33FFFFFF" BorderThickness="1">
-                                        <Border.Background><ImageBrush ImageSource="{Binding Album.CoverUrl}" Stretch="UniformToFill" /></Border.Background>
+            <!-- Scrollable Content Section -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="40,10,40,40">
+
+                    <!-- SECTION 1: MUSIQUES -->
+                    <Grid Margin="0,10,0,15">
+                        <TextBlock Text="Musiques Populaires" Foreground="White" FontSize="24" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="TracksLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollTracksLeft_Click" IsEnabled="False"/>
+                            <Button x:Name="TracksRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollTracksRight_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <ScrollViewer x:Name="TracksScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
+                        <ItemsControl ItemsSource="{Binding TopTracks}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource AlbumCard}">
+                                        <StackPanel>
+                                            <Border CornerRadius="10" Height="166" Width="166" Margin="0,0,0,12" ClipToBounds="True">
+                                                <Image Source="{Binding Album.CoverUrl}" Stretch="UniformToFill" />
+                                            </Border>
+                                            <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Artist.Name}" Foreground="#718096" FontSize="12" Margin="0,2,0,0"/>
+                                        </StackPanel>
                                     </Border>
-                                    <StackPanel Grid.Row="1" Margin="12,0,12,15">
-                                        <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="Bold" FontSize="15" TextTrimming="CharacterEllipsis">
-                                            <TextBlock.Effect><DropShadowEffect BlurRadius="2" ShadowDepth="1" Opacity="0.8"/></TextBlock.Effect>
-                                        </TextBlock>
-                                        <TextBlock Text="{Binding Artist.Name}" Foreground="#B3B3B3" FontSize="12" FontWeight="Medium"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- SECTION 2: ARTISTES -->
+                    <Grid Margin="0,45,0,15">
+                        <TextBlock Text="Artistes Populaires" Foreground="White" FontSize="24" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="ArtistsLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollArtistsLeft_Click" IsEnabled="False"/>
+                            <Button x:Name="ArtistsRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollArtistsRight_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <ScrollViewer x:Name="ArtistsScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
+                        <ItemsControl ItemsSource="{Binding TopArtists}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="150" Margin="0,0,25,0" Cursor="Hand">
+                                        <Ellipse Width="130" Height="130" HorizontalAlignment="Center">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding PictureUrl}" Stretch="UniformToFill" />
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" Margin="0,12,0,0"/>
                                     </StackPanel>
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
 
-            <TextBlock Text="Top 10 des artistes les plus populaires" Foreground="White" FontSize="22" FontWeight="Bold" Margin="0,40,0,15" />
-            
-            <ItemsControl ItemsSource="{Binding TopArtists}">
-                <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="5" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Style="{StaticResource ArtistCard}" ClipToBounds="True">
-                            <Grid Height="180">
-                                <Image Source="{Binding PictureUrl}" Stretch="UniformToFill" Opacity="0.4">
-                                    <Image.Effect><BlurEffect Radius="30" /></Image.Effect>
-                                </Image>
-                                <Border Background="#55000000" />
-                                <StackPanel VerticalAlignment="Center">
-                                    <Ellipse Width="95" Height="95" HorizontalAlignment="Center">
-                                        <Ellipse.Fill><ImageBrush ImageSource="{Binding PictureUrl}" Stretch="UniformToFill" /></Ellipse.Fill>
-                                    </Ellipse>
-                                    <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Margin="10,10,10,0">
-                                        <TextBlock.Effect><DropShadowEffect BlurRadius="2" ShadowDepth="1" /></TextBlock.Effect>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                    <!-- SECTION 3: GENRES -->
+                    <Grid Margin="0,45,0,15">
+                        <TextBlock Text="Parcourir par genre" Foreground="White" FontSize="24" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="GenresLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollGenresLeft_Click" IsEnabled="False"/>
+                            <Button x:Name="GenresRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollGenresRight_Click"/>
+                        </StackPanel>
+                    </Grid>
 
-            <TextBlock Text="Genres à la Mode" Foreground="White" FontSize="22" FontWeight="Bold" Margin="0,40,0,15" />
-            <UniformGrid Columns="4" Margin="0,0,0,20">
-                <Border Background="#EF4444" Height="80" CornerRadius="12" Margin="5"><TextBlock Text="🔥 Pop" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"/></Border>
-                <Border Background="#F59E0B" Height="80" CornerRadius="12" Margin="5"><TextBlock Text="🎧 Hip Hop" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"/></Border>
-                <Border Background="#3B82F6" Height="80" CornerRadius="12" Margin="5"><TextBlock Text="⚡ Electro" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"/></Border>
-                <Border Background="#10B981" Height="80" CornerRadius="12" Margin="5"><TextBlock Text="🎸 Rock" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"/></Border>
-            </UniformGrid>
-        </StackPanel>
-    </ScrollViewer>
-</Grid>
+                    <ScrollViewer x:Name="GenresScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Pop" Style="{StaticResource GenreTile}">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#E8115B" Offset="0"/>
+                                        <GradientStop Color="#BC0E4A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button Content="Hip-Hop" Style="{StaticResource GenreTile}">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#1E3264" Offset="0"/>
+                                        <GradientStop Color="#16254A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button Content="Jazz" Style="{StaticResource GenreTile}">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#F59E0B" Offset="0"/>
+                                        <GradientStop Color="#D97706" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button Content="R&amp;B" Style="{StaticResource GenreTile}">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#6366F1" Offset="0"/>
+                                        <GradientStop Color="#4338CA" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button Content="Rock" Style="{StaticResource GenreTile}">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#BA5D07" Offset="0"/>
+                                        <GradientStop Color="#8E4705" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button Content="Afrobeat" Style="{StaticResource GenreTile}">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#10B981" Offset="0"/>
+                                        <GradientStop Color="#059669" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

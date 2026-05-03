@@ -11,6 +11,10 @@ namespace VibyApp.DB.Data
         {
         }
 
+        public VibyDbContext()
+        {
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
@@ -20,7 +24,8 @@ namespace VibyApp.DB.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=viby.db");
+                string dbPath = @"C:\Users\Anasb\OneDrive - Cégep Marie-Victorin\Desktop\Développement d'applications pour entreprise\VibyAppProject\VibyApp.UI\viby.db";
+                optionsBuilder.UseSqlite($"Data Source={dbPath}");
             }
         }
 
@@ -28,12 +33,32 @@ namespace VibyApp.DB.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // 1. Constraints & Indexes
+            ConfigureUserConstraints(modelBuilder);
+            ConfigureMusicRelationships(modelBuilder);
+
+            // 2. Data Seeding
+            SeedInitialData(modelBuilder);
+        }
+
+        private void ConfigureUserConstraints(ModelBuilder modelBuilder)
+        {
+
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.UserName)
                 .IsUnique();
 
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
+                .IsUnique();
+
+        }
+
+        private void ConfigureMusicRelationships(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Track>()
+                .HasIndex(t => t.DeezerId)
                 .IsUnique();
 
             modelBuilder.Entity<Playlist>()
@@ -45,7 +70,10 @@ namespace VibyApp.DB.Data
                 .WithMany(u => u.Playlists)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        }
 
+        private void SeedInitialData(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
@@ -53,7 +81,6 @@ namespace VibyApp.DB.Data
                 LastName = "Vibe",
                 UserName = "admin",
                 Email = "test@gmail.com",
-                //MotDePasse = "1234",
                 MotDePasse = HashageService.HacherMDP("1234"),
                 IsAdmin = true
             });

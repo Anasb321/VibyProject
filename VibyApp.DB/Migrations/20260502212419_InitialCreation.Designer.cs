@@ -10,8 +10,8 @@ using VibyApp.DB.Data;
 namespace VibyApp.DB.Migrations
 {
     [DbContext(typeof(VibyDbContext))]
-    [Migration("20260412222006_InitialCleanDeploy")]
-    partial class InitialCleanDeploy
+    [Migration("20260502212419_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,8 +79,15 @@ namespace VibyApp.DB.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("DeezerId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Duration")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PreviewUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -92,6 +99,9 @@ namespace VibyApp.DB.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DeezerId")
+                        .IsUnique();
 
                     b.ToTable("Tracks");
                 });
@@ -147,7 +157,7 @@ namespace VibyApp.DB.Migrations
                             FirstName = "Administrateur",
                             IsAdmin = true,
                             LastName = "Vibe",
-                            MotDePasse = "1234",
+                            MotDePasse = "$2a$11$vi3GsBHzj2oWW/M/yvHJEemgtXbFAWMzlRZrG5wkTV.i6w4cUmtYS",
                             UserName = "admin"
                         });
                 });

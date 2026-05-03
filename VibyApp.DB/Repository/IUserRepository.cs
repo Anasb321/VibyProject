@@ -1,21 +1,23 @@
-﻿using System.Collections.Generic;
-using VibyApp.DB.Models;
+﻿using VibyApp.DB.Models;
 
 namespace VibyApp.DB.Repository
 {
     public interface IUserRepository
     {
-        List<User> ObtenirTout();
+        Task<List<User>> GetAllAsync();
+        Task<User?> GetByIdAsync(int id);
 
-        User? ObtenirParId(int id);
+        // For Login
+        Task<User?> GetByUserNameAsync(string userName);
 
-        User? ObtenirParUserName(string userName);
-        User? ObtenirParEmail(string email);
+        // For Registration/Forgot Password
+        Task<User?> GetByEmailAsync(string email);
 
-        void Ajouter(User user);
-        void Modifier(User user);
-        void Supprimer(int id);
+        Task AddAsync(User user);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(int id);
 
-        bool ExisteDeja(string userName, string email);
+        // Check for unique constraints on username and email during registration
+        Task<bool> ExistsAsync(string userName, string email);
     }
 }

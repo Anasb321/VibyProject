@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations; 
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace VibyApp.DB.Models
 {
@@ -23,5 +23,9 @@ namespace VibyApp.DB.Models
         public string ArtistPicture { get; set; } = string.Empty;
 
         public List<Playlist> Playlists { get; set; } = new(); // Un track peut etre dans plusieurs playlist a la fois
+
+        public long DeezerId { get; set; } // Id de la musique dans Deezer pour pouvoir faire le lien entre notre base de données et l'api de Deezer
+
+        public string PreviewUrl { get; set; } = string.Empty; // Url de la preview de la musique pour pouvoir l'écouter dans notre application
     }
 }
