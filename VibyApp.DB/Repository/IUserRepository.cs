@@ -1,4 +1,6 @@
-﻿using VibyApp.DB.Models;
+﻿using VibyApp.DB.Data;
+using VibyApp.DB.Models;
+using VibyApp.DB.Services;
 
 namespace VibyApp.DB.Repository
 {

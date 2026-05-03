@@ -62,6 +62,8 @@ namespace VibyApp.DB.Repository
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
+
+            return false;
         }
 
         public async Task<User?> VerifyConnexionAsync(string identifiant, string motDePasseSaisi)

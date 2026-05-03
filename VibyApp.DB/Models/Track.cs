@@ -27,5 +27,6 @@ namespace VibyApp.DB.Models
         public long DeezerId { get; set; } // Id de la musique dans Deezer pour pouvoir faire le lien entre notre base de données et l'api de Deezer
 
         public string PreviewUrl { get; set; } = string.Empty; // Url de la preview de la musique pour pouvoir l'écouter dans notre application
+        public List<User> FavoritedByUsers { get; set; } = new();
     }
 }
