@@ -116,5 +116,25 @@ namespace VibyApp.DB.Repository
 
             return false;
         }
+
+        public async Task<bool> AjouterArtisteAuxFavorisAsync(int userId, int artistId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteArtists)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var artist = await _context.Artists.FindAsync(artistId);
+
+            if (user == null || artist == null) return false;
+
+            if (!user.FavoriteArtists.Any(a => a.Id == artistId))
+            {
+                user.FavoriteArtists.Add(artist);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

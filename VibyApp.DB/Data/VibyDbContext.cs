@@ -14,6 +14,7 @@ namespace VibyApp.DB.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<Artist> Artists { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -50,6 +51,11 @@ namespace VibyApp.DB.Data
                 .HasMany(u => u.FavoriteTracks)
                 .WithMany(t => t.FavoritedByUsers)
                 .UsingEntity(j => j.ToTable("UserFavoriteTracks"));
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.FavoriteArtists)
+                .WithMany(a => a.FollowedByUsers)
+                .UsingEntity(j => j.ToTable("UserFavoriteArtists"));
 
             modelBuilder.Entity<User>().HasData(new User
             {
