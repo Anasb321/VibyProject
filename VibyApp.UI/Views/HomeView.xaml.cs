@@ -12,6 +12,7 @@ namespace VibyApp.UI.Views
         public HomeView()
         {
             InitializeComponent();
+            this.DataContext = new VibyApp.ViewModels.HomeViewModel();
         }
 
         private void Profile_Click(object sender, RoutedEventArgs e)

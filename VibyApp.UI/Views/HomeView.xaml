@@ -131,23 +131,26 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Genres à la Mode" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Genres à la Mode" Foreground="White" FontSize="20" 
+               FontWeight="Bold" Margin="0,0,0,10"/>
 
-                <UniformGrid Grid.Row="1" Columns="4">
-                    <Border Background="#EF4444" CornerRadius="12" Margin="5">
-                        <TextBlock Text="🔥 Pop" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
-                    </Border>
-                    <Border Background="#F59E0B" CornerRadius="12" Margin="5">
-                        <TextBlock Text="🎧 Hip Hop" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
-                    </Border>
-                    <Border Background="#3B82F6" CornerRadius="12" Margin="5">
-                        <TextBlock Text="⚡ Electro" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
-                    </Border>
-                    <Border Background="#10B981" CornerRadius="12" Margin="5">
-                        <TextBlock Text="🎸 Rock" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
-                    </Border>
-                </UniformGrid>
+                <ItemsControl x:Name="GenresList" Grid.Row="1" ItemsSource="{Binding Genres}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#3B82F6" CornerRadius="12" Margin="5" Height="50">
+                                <TextBlock Text="{Binding}" Foreground="White" VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" FontWeight="Bold"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
+            
         </Grid>
     </Grid>
 </UserControl>
