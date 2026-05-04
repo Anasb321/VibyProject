@@ -24,4 +24,8 @@
     <ProjectReference Include="..\VibyApp.DB\VibyApp.DB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VibyApp.API\VibyApp.API.csproj" />
+  </ItemGroup>
+
 </Project>

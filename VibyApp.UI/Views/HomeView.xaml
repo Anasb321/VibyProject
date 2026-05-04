@@ -163,125 +163,39 @@
                             <Button x:Name="TracksLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollTracksLeft_Click" IsEnabled="False"/>
                             <Button x:Name="TracksRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollTracksRight_Click"/>
                         </StackPanel>
-                    </Grid>
+                    </Border>
+                    <Border Style="{StaticResource ArtistCard}" Opacity="0.5"/>
+                    <Border Style="{StaticResource ArtistCard}" Opacity="0.5"/>
+                    <Border Style="{StaticResource ArtistCard}" Opacity="0.5"/>
+                    <Border Style="{StaticResource ArtistCard}" Opacity="0.5"/>
+                </UniformGrid>
+            </Grid>
 
-                    <ScrollViewer x:Name="TracksScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
-                        <ItemsControl ItemsSource="{Binding TopTracks}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Style="{StaticResource AlbumCard}">
-                                        <StackPanel>
-                                            <Border CornerRadius="10" Height="166" Width="166" Margin="0,0,0,12" ClipToBounds="True">
-                                                <Image Source="{Binding Album.CoverUrl}" Stretch="UniformToFill" />
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"/>
-                                            <TextBlock Text="{Binding Artist.Name}" Foreground="#718096" FontSize="12" Margin="0,2,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+            <Grid Grid.Row="3" Margin="40,10,40,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Genres à la Mode" Foreground="White" FontSize="20" 
+               FontWeight="Bold" Margin="0,0,0,10"/>
 
-                    <!-- SECTION 2: ARTISTES -->
-                    <Grid Margin="0,45,0,15">
-                        <TextBlock Text="Artistes Populaires" Foreground="White" FontSize="24" FontWeight="Bold" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button x:Name="ArtistsLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollArtistsLeft_Click" IsEnabled="False"/>
-                            <Button x:Name="ArtistsRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollArtistsRight_Click"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <ScrollViewer x:Name="ArtistsScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
-                        <ItemsControl ItemsSource="{Binding TopArtists}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Width="150" Margin="0,0,25,0" Cursor="Hand">
-                                        <Ellipse Width="130" Height="130" HorizontalAlignment="Center">
-                                            <Ellipse.Fill>
-                                                <ImageBrush ImageSource="{Binding PictureUrl}" Stretch="UniformToFill" />
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-                                        <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" Margin="0,12,0,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-
-                    <!-- SECTION 3: GENRES -->
-                    <Grid Margin="0,45,0,15">
-                        <TextBlock Text="Parcourir par genre" Foreground="White" FontSize="24" FontWeight="Bold" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button x:Name="GenresLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollGenresLeft_Click" IsEnabled="False"/>
-                            <Button x:Name="GenresRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollGenresRight_Click"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <ScrollViewer x:Name="GenresScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="Pop" Style="{StaticResource GenreTile}">
-                                <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#E8115B" Offset="0"/>
-                                        <GradientStop Color="#BC0E4A" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button>
-                            <Button Content="Hip-Hop" Style="{StaticResource GenreTile}">
-                                <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#1E3264" Offset="0"/>
-                                        <GradientStop Color="#16254A" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button>
-                            <Button Content="Jazz" Style="{StaticResource GenreTile}">
-                                <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#F59E0B" Offset="0"/>
-                                        <GradientStop Color="#D97706" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button>
-                            <Button Content="R&amp;B" Style="{StaticResource GenreTile}">
-                                <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#6366F1" Offset="0"/>
-                                        <GradientStop Color="#4338CA" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button>
-                            <Button Content="Rock" Style="{StaticResource GenreTile}">
-                                <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#BA5D07" Offset="0"/>
-                                        <GradientStop Color="#8E4705" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button>
-                            <Button Content="Afrobeat" Style="{StaticResource GenreTile}">
-                                <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#10B981" Offset="0"/>
-                                        <GradientStop Color="#059669" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button>
-                        </StackPanel>
-                    </ScrollViewer>
-                </StackPanel>
-            </ScrollViewer>
+                <ItemsControl x:Name="GenresList" Grid.Row="1" ItemsSource="{Binding Genres}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#3B82F6" CornerRadius="12" Margin="5" Height="50">
+                                <TextBlock Text="{Binding}" Foreground="White" VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" FontWeight="Bold"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            
         </Grid>
     </Grid>
 </UserControl>
