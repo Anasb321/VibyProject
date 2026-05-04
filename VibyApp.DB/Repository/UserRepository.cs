@@ -40,7 +40,6 @@ namespace VibyApp.DB.Repository
 
         public async Task AddAsync(User user)
         {
-            // Hash the password before saving to the database
             user.MotDePasse = HashageService.HacherMDP(user.MotDePasse);
 
             _context.Users.Add(user);
@@ -81,6 +80,66 @@ namespace VibyApp.DB.Repository
             return await _context.Users.AnyAsync(u =>
             u.UserName.Equals(userName, StringComparison.CurrentCultureIgnoreCase) ||
             u.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public async Task<bool> AjouterMusiqueAuxFavorisAsync(int userId, int trackId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteTracks)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var track = await _context.Tracks.FindAsync(trackId);
+
+            if (user == null || track == null) return false;
+
+            if (!user.FavoriteTracks.Any(t => t.Id == trackId))
+            {
+                user.FavoriteTracks.Add(track);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> RetirerMusiqueDesFavorisAsync(int userId, int trackId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteTracks)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return false;
+
+            var trackToRemove = user.FavoriteTracks.FirstOrDefault(t => t.Id == trackId);
+
+            if (trackToRemove != null)
+            {
+                user.FavoriteTracks.Remove(trackToRemove);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AjouterArtisteAuxFavorisAsync(int userId, int artistId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteArtists)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var artist = await _context.Artists.FindAsync(artistId);
+
+            if (user == null || artist == null) return false;
+
+            if (!user.FavoriteArtists.Any(a => a.Id == artistId))
+            {
+                user.FavoriteArtists.Add(artist);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -13,8 +13,6 @@ namespace VibyApp.DB.Repository
             _context = context;
         }
 
-        // tracks are not included in this method, as it's only meant to retrieve basic playlist information for a user
-        // the tracks can be retrieved separately using GetTracksFromPlaylistAsync, which is more efficient when you only need the tracks for a specific playlist
         public async Task<List<Playlist>> GetAllByUserIdAsync(int userId)
         {
             return await _context.Playlists

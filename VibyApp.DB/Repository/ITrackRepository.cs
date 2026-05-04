@@ -7,7 +7,6 @@ namespace VibyApp.DB.Repository
         Task<List<Track>> GetAllAsync();
         Task<Track?> GetByIdAsync(int id);
 
-        //  DeezerId integration
         Task<Track?> GetByDeezerIdAsync(long deezerId);
 
         Task AddAsync(Track track);
