@@ -138,7 +138,7 @@
 
                 <!-- Actions -->
                 <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                    <Button Content="Modifier le profil" Height="45" Width="180" Background="#3B82F6" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                    <Button Content="Enregistrer les modifications" Command="{Binding UpdateProfileCommand}" Height="45" Width="220" Background="#10B981" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="22"/>
