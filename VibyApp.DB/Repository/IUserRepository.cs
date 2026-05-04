@@ -23,5 +23,7 @@ namespace VibyApp.DB.Repository
         Task<bool> RetirerMusiqueDesFavorisAsync(int userId, int trackId);
 
         Task<bool> AjouterArtisteAuxFavorisAsync(int userId, int artistId);
+
+        Task<bool> RetirerArtisteDesFavorisAsync(int userId, int artistId);
     }
 }
