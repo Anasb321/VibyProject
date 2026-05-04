@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using VibyApp.DB.Data;
 using VibyApp.DB.Models;
-
 
 namespace VibyApp.DB.Repository
 {
@@ -16,35 +13,46 @@ namespace VibyApp.DB.Repository
             _context = context;
         }
 
-        public List<Track> ObtenirTout()
+        public async Task<List<Track>> GetAllAsync()
         {
-            return _context.Tracks.AsNoTracking().ToList();
+            return await _context.Tracks.
+                AsNoTracking()
+                .ToListAsync();
         }
 
-        public Track? ObtenirParId(int id)
+        public async Task<Track?> GetByIdAsync(int id)
         {
-            return _context.Tracks.AsNoTracking().FirstOrDefault(t => t.Id == id);
+            return await _context.Tracks.
+                AsNoTracking().
+                FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public void Ajouter(Track track)
+        public async Task<Track?> GetByDeezerIdAsync(long deezerId)
         {
-            _context.Tracks.Add(track);
-            _context.SaveChanges();
+            return await _context.Tracks.
+                AsNoTracking().
+                FirstOrDefaultAsync(t => t.DeezerId == deezerId);
         }
 
-        public void Modifier(Track track)
+        public async Task AddAsync(Track track)
+        {
+            await _context.Tracks.AddAsync(track);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Track track)
         {
             _context.Tracks.Update(track);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Supprimer(int id)
+        public async Task DeleteAsync(int id)
         {
-            var track = _context.Tracks.Find(id);
+            var track = await _context.Tracks.FindAsync(id);
             if (track != null)
             {
                 _context.Tracks.Remove(track);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

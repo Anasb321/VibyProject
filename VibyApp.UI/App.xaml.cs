@@ -3,8 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using VibyApp.DB.Data;
+using VibyApp.UI.ViewModels;
 using VibyApp.UI.Views;
-using VibyApp.ViewModels;
+using VibyApp.UI.Services;
 
 namespace VibyProject
 {
@@ -23,27 +24,40 @@ namespace VibyProject
 
             var services = new ServiceCollection();
 
+            // --- Base de données ---
             services.AddDbContext<VibyDbContext>(options =>
             {
                 options.UseSqlite("Data Source=viby.db");
             });
 
- 
-            services.AddSingleton<MainViewModel>();
+            // --- SERVICES ---
+            services.AddSingleton<DeezerService>();
 
+            // --- VIEWMODELS ---
+            services.AddSingleton<MainViewModel>();
             services.AddTransient<HomeViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<ProfileViewModel>();
 
-            services.AddTransient<MainWindow>(s => new MainWindow()
-            {
-                DataContext = s.GetRequiredService<MainViewModel>()
-            });
+            // --- VUES ---
+            services.AddTransient<MainWindow>();
 
+            // Construction du Provider
             ServiceProvider = services.BuildServiceProvider();
 
+            // Migration de la DB
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<VibyDbContext>();
+                dbContext.Database.Migrate();
+            }
+
+            // Lancement propre
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+
+            // On s'assure que le DataContext est bien le MainViewModel injecté
+            mainWindow.DataContext = ServiceProvider.GetRequiredService<MainViewModel>();
             mainWindow.Show();
         }
 

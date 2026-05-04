@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VibyApp.DB.Models;
+﻿using VibyApp.DB.Models;
 
 namespace VibyApp.DB.Repository
 {
     public interface ITrackRepository
     {
-        List<Track> ObtenirTout();
-        Track? ObtenirParId(int id);
-        void Ajouter(Track track);
-        void Modifier(Track track);
-        void Supprimer(int id);
+        Task<List<Track>> GetAllAsync();
+        Task<Track?> GetByIdAsync(int id);
+
+        Task<Track?> GetByDeezerIdAsync(long deezerId);
+
+        Task AddAsync(Track track);
+        Task UpdateAsync(Track track);
+        Task DeleteAsync(int id);
     }
 }

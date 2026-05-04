@@ -1,40 +1,57 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace VibyApp.UI.Views;
-
-public class DeezerService
+namespace VibyApp.UI.Views
 {
-    private readonly HttpClient _httpClient;
-
-    public DeezerService()
+    public partial class HomeView : UserControl
     {
-        _httpClient = new HttpClient();
-    }
-
-    public async Task<(List<Track> TopTracks, List<Artist> TopArtists)> GetTop10Async()
-    {
-        try
+        public HomeView()
         {
-            var response = await _httpClient.GetStringAsync("https://api.deezer.com/chart/0/");
-            var chartData = JsonSerializer.Deserialize<DeezerChartResponse>(response);
-
-            var topTracks = chartData?.Tracks?.Data?.Take(10).ToList() ?? new List<Track>();
-            var topArtists = chartData?.Artists?.Data?.Take(10).ToList() ?? new List<Artist>();
-
-            return (topTracks, topArtists);
+            InitializeComponent();
         }
-        catch
+
+        // --- LOGIQUE DE SCROLLING ---
+        private void ScrollTracksLeft_Click(object sender, RoutedEventArgs e) =>
+            TracksScroll.ScrollToHorizontalOffset(TracksScroll.HorizontalOffset - 600);
+
+        private void ScrollTracksRight_Click(object sender, RoutedEventArgs e) =>
+            TracksScroll.ScrollToHorizontalOffset(TracksScroll.HorizontalOffset + 600);
+
+        private void ScrollArtistsLeft_Click(object sender, RoutedEventArgs e) =>
+            ArtistsScroll.ScrollToHorizontalOffset(ArtistsScroll.HorizontalOffset - 600);
+
+        private void ScrollArtistsRight_Click(object sender, RoutedEventArgs e) =>
+            ArtistsScroll.ScrollToHorizontalOffset(ArtistsScroll.HorizontalOffset + 600);
+
+        private void ScrollGenresLeft_Click(object sender, RoutedEventArgs e) =>
+            GenresScroll.ScrollToHorizontalOffset(GenresScroll.HorizontalOffset - 600);
+
+        private void ScrollGenresRight_Click(object sender, RoutedEventArgs e) =>
+            GenresScroll.ScrollToHorizontalOffset(GenresScroll.HorizontalOffset + 600);
+
+        private void Scroll_Changed(object sender, ScrollChangedEventArgs e)
         {
-            return (new List<Track>(), new List<Artist>());
+            if (sender is ScrollViewer sv)
+            {
+                if (sv == TracksScroll)
+                {
+                    TracksLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                    TracksRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
+                }
+                else if (sv == ArtistsScroll)
+                {
+                    ArtistsLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                    ArtistsRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
+                }
+                else if (sv == GenresScroll)
+                {
+                    GenresLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                    GenresRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
+                }
+            }
         }
     }
+<<<<<<< HEAD
 }
 
 public partial class HomeView : UserControl, INotifyPropertyChanged
@@ -133,4 +150,6 @@ public class Artist
 public class Album
 {
     [JsonPropertyName("cover_medium")] public string CoverUrl { get; set; }
+=======
+>>>>>>> 929c4447f7a40b91e774002a5d8e373a0b7c49a5
 }
