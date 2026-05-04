@@ -8,6 +8,7 @@ namespace VibyApp.UI.Views
         public HomeView()
         {
             InitializeComponent();
+            this.DataContext = new VibyApp.ViewModels.HomeViewModel();
         }
 
         // --- LOGIQUE DE SCROLLING ---
