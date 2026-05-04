@@ -25,8 +25,7 @@ namespace VibyApp.DB.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string dbPath = @"C:\Users\Anasb\OneDrive - Cégep Marie-Victorin\Desktop\Développement d'applications pour entreprise\VibyAppProject\VibyApp.UI\viby.db";
-                optionsBuilder.UseSqlite($"Data Source={dbPath}");
+                optionsBuilder.UseSqlite("Data Source=viby.db");
             }
         }
 
@@ -34,11 +33,9 @@ namespace VibyApp.DB.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // 1. Constraints & Indexes
             ConfigureUserConstraints(modelBuilder);
             ConfigureMusicRelationships(modelBuilder);
 
-            // 2. Data Seeding
             SeedInitialData(modelBuilder);
         }
 
@@ -81,8 +78,6 @@ namespace VibyApp.DB.Data
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-
-
 
         private void SeedInitialData(ModelBuilder modelBuilder)
         {
