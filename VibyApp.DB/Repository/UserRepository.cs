@@ -141,5 +141,25 @@ namespace VibyApp.DB.Repository
 
             return false;
         }
+
+        public async Task<bool> RetirerArtisteDesFavorisAsync(int userId, int artistId)
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteArtists)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return false;
+
+            var artistToRemove = user.FavoriteArtists.FirstOrDefault(t => t.Id == artistId);
+
+            if (artistToRemove != null)
+            {
+                user.FavoriteArtists.Remove(artistToRemove);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }
