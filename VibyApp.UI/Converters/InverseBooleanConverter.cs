@@ -7,13 +7,18 @@ namespace VibyApp.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool b) return !b;
-            return true;
+            if (value is bool b)
+                return !b;
+
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            if (value is bool b)
+                return !b;
+
+            return false;
         }
     }
 }

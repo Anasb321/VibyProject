@@ -1,17 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using VibyApp.DB.Repository;
 using VibyApp.UI.Services;
 
 namespace VibyApp.UI.ViewModels;
 
 public class MainViewModel : BaseViewModel
 {
+    private readonly IPlaylistRepository _playlistRepository;
+
     private readonly DeezerService _deezerService;
-    private object _currentView = new object();
+    
+    private object _currentView;
 
     public object CurrentView
     {
         get => _currentView;
-        set { _currentView = value; OnPropertyChanged(); }
+        set 
+        { 
+            _currentView = value;
+            OnPropertyChanged(); 
+        }
     }
 
     // ViewModels persistants
@@ -24,9 +32,10 @@ public class MainViewModel : BaseViewModel
     public IRelayCommand MoveToProfileCommand { get; }
 
     // Le constructeur reçoit HomeViewModel et DeezerService via l'injection de dépendances
-    public MainViewModel(HomeViewModel homeVM, DeezerService deezerService)
+    public MainViewModel(HomeViewModel homeVM, DeezerService deezerService, IPlaylistRepository playlistRepository)
     {
         _deezerService = deezerService;
+        _playlistRepository = playlistRepository;
         HomeVM = homeVM;
 
         // On commence sur le Login au démarrage (ou Home si tu préfères)
@@ -40,6 +49,6 @@ public class MainViewModel : BaseViewModel
 
         // MoveToSearchCommand = new RelayCommand(() => CurrentView = new SearchViewModel(_deezerService));
 
-        // MoveToLibraryCommand = new RelayCommand(() => CurrentView = new LibraryViewModel());
+        MoveToLibraryCommand = new RelayCommand(() => CurrentView = new LibraryViewModel(_playlistRepository));
     }
 }

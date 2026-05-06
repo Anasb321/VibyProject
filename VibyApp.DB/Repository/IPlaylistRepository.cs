@@ -13,7 +13,7 @@ namespace VibyApp.DB.Repository
         Task DeleteAsync(int id);
 
         // Task for managing tracks in playlists
-        Task AddTrackToPlaylistAsync(int playlistId, int trackId);
+        Task AddTrackToPlaylistAsync(int playlistId, Track track);
         Task RemoveTrackFromPlaylistAsync(int playlistId, int trackId);
         Task<List<Track>> GetTracksFromPlaylistAsync(int playlistId);
     }

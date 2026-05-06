@@ -13,8 +13,6 @@ namespace VibyApp.DB.Repository
             _context = context;
         }
 
-        // tracks are not included in this method, as it's only meant to retrieve basic playlist information for a user
-        // the tracks can be retrieved separately using GetTracksFromPlaylistAsync, which is more efficient when you only need the tracks for a specific playlist
         public async Task<List<Playlist>> GetAllByUserIdAsync(int userId)
         {
             return await _context.Playlists
@@ -36,8 +34,16 @@ namespace VibyApp.DB.Repository
             await _context.SaveChangesAsync();
         }
 
+
         public async Task UpdateAsync(Playlist playlist)
         {
+            var trackedEntity = _context.Playlists.Local.FirstOrDefault(p => p.Id == playlist.Id);
+            
+            if (trackedEntity != null)
+            {
+                _context.Entry(trackedEntity).State = EntityState.Detached;
+            }
+
             _context.Playlists.Update(playlist);
             await _context.SaveChangesAsync();
         }
@@ -52,20 +58,37 @@ namespace VibyApp.DB.Repository
             }
         }
 
-        public async Task AddTrackToPlaylistAsync(int playlistId, int trackId)
+        public async Task AddTrackToPlaylistAsync(int playlistId, Track track)
         {
-            var playlist = await _context.Playlists
-                .Include(p => p.Tracks)
-                .FirstOrDefaultAsync(p => p.Id == playlistId);
+            if (track == null) return;
 
-            var track = await _context.Tracks.FindAsync(trackId);
+            var existingTrack = await _context.Tracks
+            .FirstOrDefaultAsync(t => t.DeezerId == track.DeezerId);
 
-            if (playlist == null || track == null) return;
+            Track trackToLink;
 
-            if (!playlist.Tracks.Any(t => t.Id == trackId))
+            if (existingTrack == null)
             {
-                playlist.Tracks.Add(track);
+                _context.Tracks.Add(track);
                 await _context.SaveChangesAsync();
+                trackToLink = track;
+            }
+            else
+            {
+                trackToLink = existingTrack;
+            }
+
+            var playlist = await _context.Playlists
+            .Include(p => p.Tracks)
+            .FirstOrDefaultAsync(p => p.Id == playlistId);
+
+            if (playlist != null)
+            {
+                if (!playlist.Tracks.Any(t => t.DeezerId == trackToLink.DeezerId))
+                {
+                    playlist.Tracks.Add(trackToLink);
+                    await _context.SaveChangesAsync();
+                }
             }
         }
 
