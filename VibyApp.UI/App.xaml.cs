@@ -3,9 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using VibyApp.DB.Data;
+using VibyApp.DB.Repository;
+using VibyApp.UI.Services;
 using VibyApp.UI.ViewModels;
 using VibyApp.UI.Views;
-using VibyApp.UI.Services;
 
 namespace VibyProject
 {
@@ -32,6 +33,7 @@ namespace VibyProject
 
             // --- SERVICES ---
             services.AddSingleton<DeezerService>();
+            services.AddScoped<IPlaylistRepository, PlaylistRepository>();
 
             // --- VIEWMODELS ---
             services.AddSingleton<MainViewModel>();

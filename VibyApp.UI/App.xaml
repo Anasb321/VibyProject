@@ -45,6 +45,14 @@
                 <views:ProfileView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:LibraryViewModel}">
+                <views:LibraryView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:PlaylistDetailViewModel}">
+                <views:PlaylistDetailView/>
+            </DataTemplate>
+
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
             <converters:StringToColorConverter x:Key="StringToColorConverter" />

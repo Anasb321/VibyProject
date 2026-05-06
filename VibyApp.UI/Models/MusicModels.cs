@@ -19,15 +19,24 @@ namespace VibyApp.UI.Models
 
         public class Track
         {
-            [JsonPropertyName("title")]
-            public string Title { get; set; }
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
 
-            [JsonPropertyName("artist")]
-            public Artist Artist { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
 
-            [JsonPropertyName("album")]
-            public Album Album { get; set; }
-        }
+        [JsonPropertyName("duration")]
+        public int Duration { get; set; }
+
+        [JsonPropertyName("preview")]
+        public string Preview { get; set; }
+
+        [JsonPropertyName("artist")]
+        public Artist Artist { get; set; }
+
+        [JsonPropertyName("album")]
+        public Album Album { get; set; }
+    }
 
         public class Artist
         {
@@ -36,7 +45,7 @@ namespace VibyApp.UI.Models
 
             [JsonPropertyName("picture_medium")]
             public string PictureUrl { get; set; }
-        }
+    }
 
         public class Album
         {

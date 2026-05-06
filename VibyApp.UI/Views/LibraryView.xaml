@@ -1,0 +1,316 @@
+﻿<UserControl x:Class="VibyApp.UI.Views.LibraryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:VibyApp.UI.Converters"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1100"
+             Background="#0F111A">
+
+    <!-- ===================== RESOURCES ===================== -->
+    <UserControl.Resources>
+
+        <!-- Converters -->
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+
+        <!-- Modern TextBox Style -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#1F2937"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#374151"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Sidebar Button Style -->
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#94A3B8"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1F2937"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="Tag" Value="Active">
+                    <Setter Property="Background" Value="#1F2937"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Playlist Card -->
+        <Style x:Key="PlaylistCard" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background" Value="#181818"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Height" Value="250"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#282828"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.4"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ===================== SIDEBAR ===================== -->
+        <Border Background="#07090F" BorderBrush="#1F2937" BorderThickness="0,0,1,0">
+            <DockPanel Margin="20,30">
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="VIBY" Foreground="#3B82F6" FontSize="32" FontWeight="Black" Margin="10,0,0,40" />
+                    <Button Content="🏠   Accueil" Style="{StaticResource SidebarButtonStyle}" Command="{Binding DataContext.MoveToHomeCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="🔍   Explorer" Style="{StaticResource SidebarButtonStyle}" Command="{Binding DataContext.MoveToExploreCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="📚   Bibliothèque" Style="{StaticResource SidebarButtonStyle}" Tag="Active" Command="{Binding DataContext.MoveToLibraryCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="👤   Profil" Style="{StaticResource SidebarButtonStyle}" Margin="0,15,0,0" Command="{Binding DataContext.MoveToProfileCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                    <TextBlock Text="VOS MUSIQUES" Foreground="#475569" FontSize="11" FontWeight="Bold" Margin="15,0,0,10" Opacity="0.6"/>
+                    <Button Content="❤️  Titres likés" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📻  Albums" Style="{StaticResource SidebarButtonStyle}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- ===================== MAIN ===================== -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Margin="50,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Ma Bibliothèque" Foreground="White" FontSize="36" FontWeight="Bold"/>
+                    <TextBlock Text="Tes playlists et tes favoris" Foreground="#94A3B8" FontSize="14"/>
+                </StackPanel>
+
+                <!-- Create Button -->
+                <Button HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Command="{Binding OpenCreatePlaylistCommand}"
+                        Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#3B82F6" CornerRadius="22" Padding="20,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="+" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,10,0"/>
+                                    <TextBlock Text="Nouvelle Playlist" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <!-- Playlists -->
+            <ScrollViewer Grid.Row="1" Margin="30,10,20,0" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Playlists}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource PlaylistCard}">
+                                
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick" 
+                                                  Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                                  CommandParameter="{Binding}"/>
+                                </Border.InputBindings>
+                                
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Zone Image -->
+                                        <RowDefinition Height="*"/>
+                                        <!-- Textes -->
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Zone Image avec le bouton Play superposé -->
+                                    <Grid Grid.Row="0">
+                                        <Border CornerRadius="8" 
+                            Height="150" 
+                            Background="#222" 
+                            ClipToBounds="True">
+                                            <Image Source="{Binding PlaylistPicture}"
+                               Stretch="UniformToFill"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- Section Textes -->
+                                    <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                                        <TextBlock Text="{Binding Name}"
+                               Foreground="White"
+                               FontSize="15"
+                               FontWeight="Bold"
+                               TextTrimming="CharacterEllipsis"/>
+
+                                        <TextBlock Text="{Binding Description}"
+                               Foreground="#B3B3B3"
+                               FontSize="12"
+                               Margin="0,4,0,0"
+                               TextWrapping="Wrap"
+                               MaxHeight="36"
+                               LineHeight="16"
+                               TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- ===================== MODAL ===================== -->
+        <Grid Visibility="{Binding IsModalOpen, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Panel.ZIndex="100"
+              Grid.ColumnSpan="2">
+
+            <!-- Background overlay -->
+            <Border Background="#CC000000">
+                <Border.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding CloseModalCommand}"/>
+                </Border.InputBindings>
+            </Border>
+
+            <!-- Modal Content -->
+            <Border Background="#161B2C"
+                    Width="500"
+                    Padding="30"
+                    CornerRadius="20"
+                    BorderBrush="#3B82F6"
+                    BorderThickness="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <StackPanel>
+
+                    <!-- Title -->
+                    <TextBlock Text="Créer une playlist"
+                               Foreground="White"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Margin="0,0,0,20"/>
+
+                    <!-- ===== NOM + ERREUR SUR LA MÊME LIGNE ===== -->
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Nom" Foreground="#94A3B8"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding ErrorMessage}"
+                                   Foreground="#EF4444"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </Grid>
+
+                    <TextBox Style="{StaticResource ModernTextBox}"
+                             Text="{Binding CurrentPlaylist.Name}"
+                             Margin="0,0,0,20"/>
+
+                    <!-- Description -->
+                    <TextBlock Text="Description" Foreground="#94A3B8"/>
+                    <TextBox Style="{StaticResource ModernTextBox}"
+                             Text="{Binding CurrentPlaylist.Description}"
+                             Height="80"
+                             Margin="0,0,0,20"/>
+
+                    <!-- Image -->
+                    <TextBlock Text="Image de couverture" Foreground="#94A3B8" Margin="0,0,0,8"/>
+                    <Button Command="{Binding SelectImageCommand}" Cursor="Hand" Margin="0,0,0,25">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Height="120" Background="#1F2937" CornerRadius="10" BorderBrush="#374151" BorderThickness="1">
+                                    <Grid>
+                                        <Image Source="{Binding CurrentPlaylist.PlaylistPicture}" Stretch="UniformToFill"/>
+                                        <TextBlock Text="Changer l'image" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.6"/>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Actions -->
+                    <Grid>
+                        <Button Content="Annuler"
+                                Command="{Binding CloseModalCommand}"
+                                Background="Transparent"
+                                Foreground="White"
+                                HorizontalAlignment="Left"
+                                Padding="20, 8"/>
+
+                        <Button Content="Enregistrer"
+                                Command="{Binding SavePlaylistCommand}"
+                                IsEnabled="{Binding IsSaving, Converter={StaticResource InverseBooleanConverter}}"
+                                Background="#3B82F6"
+                                Foreground="White"
+                                HorizontalAlignment="Right"
+                                Padding="20,8"/>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+        </Grid>
+
+    </Grid>
+</UserControl>
