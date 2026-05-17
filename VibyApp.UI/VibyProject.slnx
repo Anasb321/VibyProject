@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="../VibyApp.API/VibyApp.API.csproj" Id="4d8f181f-b3b5-42af-9fb4-c36af66ef002" />
   <Project Path="../VibyApp.DB/VibyApp.DB.csproj" Id="201c771b-e291-4e70-b64f-810de0129fe0" />
+  <Project Path="../VibyApp.Tests/VibyApp.Tests.csproj" Id="a86dc8c9-a9c8-403f-9b7f-5b5260c84880" />
   <Project Path="../VibyApp.ViewModels/VibyApp.ViewModels.csproj" />
   <Project Path="VibyApp.UI.csproj" />
 </Solution>
