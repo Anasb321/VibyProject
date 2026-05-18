@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using VibyApp.UI.Models;
 using VibyApp.UI.ViewModels;
+using Xunit;
 
 namespace VibyApp.Tests
 {
     public class PlayerBarViewModelTests
     {
+        private static Track SampleTrack => new()
+        {
+            Id = 1,
+            Title = "Test",
+            Preview = "https://example.com/preview.mp3",
+            Duration = 30,
+            Artist = new Artist { Name = "Artist" }
+        };
+
         [Fact]
         public void ExecuteTogglePlayPause_WhenNotPlaying_ShouldCallPlayAndSetIsPlayingToTrue()
         {
-            // Arrange : On prépare le terrain
             var mockAudio = new MockAudioService { IsPlaying = false };
             var viewModel = new PlayerBarViewModel(mockAudio);
+            viewModel.PlayTrack(SampleTrack);
+            mockAudio.Pause();
+            viewModel.IsPlaying = false;
 
-            // Act : On exécute l'action de l'utilisateur (le clic sur le bouton)
             viewModel.TogglePlayPauseCommand.Execute(null);
 
             // Assert : On vérifie que le comportement est le bon
@@ -28,12 +34,10 @@ namespace VibyApp.Tests
         [Fact]
         public void ExecuteTogglePlayPause_WhenPlaying_ShouldCallPauseAndSetIsPlayingToFalse()
         {
-            // Arrange
             var mockAudio = new MockAudioService { IsPlaying = true };
             var viewModel = new PlayerBarViewModel(mockAudio);
-            viewModel.IsPlaying = true;
+            viewModel.PlayTrack(SampleTrack);
 
-            // Act
             viewModel.TogglePlayPauseCommand.Execute(null);
 
             // Assert

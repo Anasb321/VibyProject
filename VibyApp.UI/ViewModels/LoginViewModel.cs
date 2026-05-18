@@ -49,7 +49,7 @@ namespace VibyApp.UI.ViewModels
 
                 if (isConnected != null)
                 {
-                    _mainVM.CurrentView = new HomeViewModel(_deezerService);
+                    _mainVM.CurrentView = _mainVM.HomeVM;
                 }
                 else
                 {

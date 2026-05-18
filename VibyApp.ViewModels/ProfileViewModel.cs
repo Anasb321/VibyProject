@@ -32,6 +32,7 @@ namespace VibyApp.ViewModels
             var user = await _userRepository.GetByIdAsync(1);
             if (user != null)
             {
+                _currentUser = user;
                 Username = user.UserName;
                 UserEmail = user.Email;
                 FullName = $"{user.FirstName} {user.LastName}";

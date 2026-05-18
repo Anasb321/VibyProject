@@ -24,7 +24,7 @@ namespace VibyApp.UI.ViewModels
         private bool _isSearchOpen;
 
         [ObservableProperty]
-        private string _searchText;
+        private string _searchText = string.Empty;
 
         public ObservableCollection<Track> SearchResults { get; } = new();
 

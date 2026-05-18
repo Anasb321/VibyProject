@@ -10,7 +10,7 @@ namespace VibyApp.UI.ViewModels
         private readonly IUserRepository _userRepository;
         private readonly DeezerService _deezerService;
 
-        private object _currentView;
+        private object _currentView = null!;
         public object CurrentView
         {
             get => _currentView;
@@ -24,10 +24,16 @@ namespace VibyApp.UI.ViewModels
         // ViewModels persistants
         public PlayerBarViewModel PlayerBarViewModel { get; }
         public HomeViewModel HomeVM { get; }
+        private bool _isPlayerVisible;
+        public bool IsPlayerVisible
+        {
+            get => _isPlayerVisible;
+            set { _isPlayerVisible = value; OnPropertyChanged(); }
+        }
 
         // Commandes pour les boutons de la Sidebar
         public IRelayCommand MoveToHomeCommand { get; }
-        public IRelayCommand MoveToSearchCommand { get; }
+        public IRelayCommand MoveToExploreCommand { get; }
         public IRelayCommand MoveToLibraryCommand { get; }
         public IRelayCommand MoveToProfileCommand { get; }
 
@@ -39,17 +45,21 @@ namespace VibyApp.UI.ViewModels
             _userRepository = userRepository;
             HomeVM = homeVM;
             PlayerBarViewModel = playerBarViewModel;
+            PlayerBarViewModel.PlaybackStarted += () =>
+            {
+                IsPlayerVisible = true;
+            };
 
-            // On commence sur le Login au démarrage 
+            // On commence sur le Login au démarrage (ou Home si tu préfères)
             CurrentView = new LoginViewModel(this, _deezerService);
 
             // Initialisation des commandes
             MoveToHomeCommand = new RelayCommand(() => CurrentView = HomeVM);
 
             // Navigation vers les autres vues en passant les dépendances nécessaires
-            MoveToProfileCommand = new RelayCommand(() => CurrentView = new ProfileViewModel());
+            MoveToProfileCommand = new RelayCommand(() => CurrentView = new ProfileViewModel(_userRepository));
 
-            // MoveToSearchCommand = new RelayCommand(() => CurrentView = new SearchViewModel(_deezerService));
+            MoveToExploreCommand = new RelayCommand(() => CurrentView = HomeVM);
 
             MoveToLibraryCommand = new RelayCommand(() => CurrentView = new LibraryViewModel(_playlistRepository));
         }

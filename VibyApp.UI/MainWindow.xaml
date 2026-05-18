@@ -7,6 +7,10 @@
         Width="1100"
         WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
     <DockPanel>
         <views:PlayerBarView DockPanel.Dock="Bottom" 
                              DataContext="{Binding PlayerBarViewModel}"

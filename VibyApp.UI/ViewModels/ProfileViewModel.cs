@@ -1,7 +1,52 @@
-﻿namespace VibyApp.UI.ViewModels
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using VibyApp.DB.Models;
+using VibyApp.DB.Repository;
+
+namespace VibyApp.UI.ViewModels
 {
     public partial class ProfileViewModel : BaseViewModel
     {
-        // Commande de déconnexion, de mise à jour du profil, etc. peuvent être ajoutées ici
+        private readonly IUserRepository _userRepository;
+        private User? _currentUser;
+
+        [ObservableProperty]
+        private string _username = "Chargement...";
+
+        [ObservableProperty]
+        private string _userEmail = "...";
+
+        [ObservableProperty]
+        private string _fullName = "...";
+
+        public ProfileViewModel(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+            _ = LoadUserDataAsync();
+        }
+
+        private async Task LoadUserDataAsync()
+        {
+            var user = await _userRepository.GetByIdAsync(1);
+            if (user != null)
+            {
+                _currentUser = user;
+                Username = user.UserName;
+                UserEmail = user.Email;
+                FullName = $"{user.FirstName} {user.LastName}";
+            }
+        }
+
+        [RelayCommand]
+        private async Task UpdateProfile()
+        {
+            if (_currentUser == null)
+                return;
+
+            _currentUser.UserName = Username;
+            _currentUser.Email = UserEmail;
+
+            await _userRepository.UpdateAsync(_currentUser);
+        }
     }
 }
