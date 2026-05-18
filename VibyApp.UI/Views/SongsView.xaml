@@ -9,27 +9,22 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- En-tête -->
         <StackPanel Grid.Row="0" Margin="0,0,0,30">
-            <TextBlock Text="MA MUSIQUE" Foreground="#3B82F6" FontSize="12" FontWeight="Bold" LetterSpacing="2"/>
+            <TextBlock Text="MA MUSIQUE" Foreground="#3B82F6" FontSize="12" FontWeight="Bold"/>
             <TextBlock Text="Titres enregistrés" Foreground="White" FontSize="32" FontWeight="Bold" Margin="0,5"/>
         </StackPanel>
 
-        <!-- Liste des chansons -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Songs}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        
+
                         <Border Background="#0F172A" Margin="0,0,0,10" Padding="15" CornerRadius="10" BorderBrush="#1F2937" BorderThickness="1">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
-                                    <!-- Icône -->
                                     <ColumnDefinition Width="*"/>
-                                    <!-- Titre/Artiste -->
                                     <ColumnDefinition Width="Auto"/>
-                                    <!-- Durée -->
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="🎵" VerticalAlignment="Center" FontSize="18"/>

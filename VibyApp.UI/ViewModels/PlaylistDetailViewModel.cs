@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using VibyApp.DB.Models;
 using VibyApp.DB.Repository;
 using VibyApp.UI.Services;
@@ -36,11 +38,17 @@ namespace VibyApp.UI.ViewModels
             _ = LoadTracksAsync();
         }
 
-        partial void OnSearchTextChanged(string value)
+        
+        protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(value) && value.Length > 2)
+            base.OnPropertyChanged(e);
+
+            if (e.PropertyName == nameof(SearchText))
             {
-                _ = PerformSearchAsync(value);
+                if (!string.IsNullOrEmpty(SearchText) && SearchText.Length > 2)
+                {
+                    _ = PerformSearchAsync(SearchText);
+                }
             }
         }
 
@@ -73,7 +81,7 @@ namespace VibyApp.UI.ViewModels
 
             await _playlistRepository.DeleteAsync(Playlist.Id);
 
-            // Retour à la bibliothèque
+            
             if (App.Current.MainWindow.DataContext is MainViewModel mainVM)
             {
                 mainVM.CurrentView = new LibraryViewModel(_playlistRepository);
