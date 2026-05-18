@@ -9,7 +9,7 @@
 
     <DockPanel>
         <views:PlayerBarView DockPanel.Dock="Bottom" 
-                             DataContext="{Binding PlayerViewModel}"
+                             DataContext="{Binding PlayerBarViewModel}"
                              Visibility="{Binding IsPlayerVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
         <ContentControl Content="{Binding CurrentView}" />

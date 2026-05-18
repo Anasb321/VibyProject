@@ -77,7 +77,7 @@
                     <Button Content="🔀" Style="{StaticResource PlayerControlButton}" Command="{Binding ToggleShuffleCommand}"/>
                     <Button Content="⏮" Style="{StaticResource PlayerControlButton}" Command="{Binding PreviousTrackCommand}"/>
 
-                    <Button Command="{Binding TogglePlayPauseCommand}" Style="{StaticResource PlayPauseButton}">
+                    <Button Command="{Binding TogglePlayPauseCommand}">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource PlayPauseButton}">
                                 <Setter Property="Content" Value="▶"/>
