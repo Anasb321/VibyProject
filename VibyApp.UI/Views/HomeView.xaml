@@ -4,11 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:VibyApp.UI.ViewModels"
+             xmlns:converters="clr-namespace:VibyApp.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1100"
              Background="#0F111A">
 
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <converters:InverseBooleanConverter x:Key="InverseBoolToVis"/>
+        <converters:UriToImageConverter x:Key="UriToImage"/>
+
         <Style x:Key="SidebarButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#94A3B8"/>
@@ -102,6 +107,22 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <DataTemplate x:Key="TrackCardTemplate">
+            <Button Command="{Binding DataContext.PlayTrackCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding}"
+                    Background="Transparent" BorderThickness="0" Padding="0" Cursor="Hand">
+                <Border Style="{StaticResource AlbumCard}">
+                    <StackPanel>
+                        <Border CornerRadius="10" Height="166" Width="166" Margin="0,0,0,12" ClipToBounds="True">
+                            <Image Source="{Binding Album.CoverUrl, Converter={StaticResource UriToImage}}" Stretch="UniformToFill" />
+                        </Border>
+                        <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Artist.Name}" Foreground="#718096" FontSize="12" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Button>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
@@ -141,12 +162,69 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="🔍" Foreground="#4A5568" VerticalAlignment="Center" Margin="0,0,10,0" />
-                    <TextBox Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" CaretBrush="White" FontSize="14"/>
+                    <TextBox Grid.Column="1"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Foreground="White"
+                             VerticalAlignment="Center"
+                             CaretBrush="White"
+                             FontSize="14"
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                             Tag="Rechercher un titre, un artiste..."/>
                 </Grid>
             </Border>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel Margin="40,10,40,40">
+
+                    <TextBlock Text="Chargement..."
+                               Foreground="#94A3B8"
+                               Margin="0,10,0,15"
+                               Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}"/>
+
+                    <!-- Résultats de recherche -->
+                    <StackPanel Visibility="{Binding IsSearchMode, Converter={StaticResource BoolToVis}}">
+                        <Grid Margin="0,10,0,15">
+                            <TextBlock Text="Résultats de recherche" Foreground="White" FontSize="24" FontWeight="Bold" />
+                            <TextBlock Text="Recherche en cours..."
+                                       Foreground="#94A3B8"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Visibility="{Binding IsSearching, Converter={StaticResource BoolToVis}}"/>
+                        </Grid>
+
+                        <ScrollViewer x:Name="SearchScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,20">
+                            <ItemsControl ItemsSource="{Binding SearchResults}" ItemTemplate="{StaticResource TrackCardTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <TextBlock Text="Aucun résultat pour cette recherche."
+                                   Foreground="#94A3B8"
+                                   Margin="0,0,0,20">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSearching}" Value="False"/>
+                                                <Condition Binding="{Binding SearchResults.Count}" Value="0"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Contenu d'accueil (masqué pendant la recherche) -->
+                    <StackPanel Visibility="{Binding IsSearchMode, Converter={StaticResource InverseBoolToVis}}">
 
                     <Grid Margin="0,10,0,15">
                         <TextBlock Text="Musiques Populaires" Foreground="White" FontSize="24" FontWeight="Bold" />
@@ -156,29 +234,74 @@
                         </StackPanel>
                     </Grid>
 
-                    <Grid Grid.Row="3" Margin="40,10,40,20">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Genres à la Mode" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-
-                        <ItemsControl x:Name="GenresList" Grid.Row="1" ItemsSource="{Binding Genres}">
+                    <ScrollViewer x:Name="TracksScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
+                        <ItemsControl ItemsSource="{Binding TopTracks}" ItemTemplate="{StaticResource TrackCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="4"/>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <Grid Margin="0,45,0,15">
+                        <TextBlock Text="Artistes Populaires" Foreground="White" FontSize="24" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="ArtistsLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollArtistsLeft_Click" IsEnabled="False"/>
+                            <Button x:Name="ArtistsRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollArtistsRight_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <ScrollViewer x:Name="ArtistsScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
+                        <ItemsControl ItemsSource="{Binding TopArtists}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="#3B82F6" CornerRadius="12" Margin="5" Height="50">
-                                        <TextBlock Text="{Binding}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
-                                    </Border>
+                                    <StackPanel Width="150" Margin="0,0,25,0" Cursor="Hand">
+                                        <Ellipse Width="130" Height="130" HorizontalAlignment="Center">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding PictureUrl, Converter={StaticResource UriToImage}}" Stretch="UniformToFill" />
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                    </ScrollViewer>
+
+                    <Grid Margin="0,45,0,15">
+                        <TextBlock Text="Parcourir par genre" Foreground="White" FontSize="24" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="GenresLeftBtn" Content="‹" Style="{StaticResource NavButton}" Margin="0,0,8,0" Click="ScrollGenresLeft_Click" IsEnabled="False"/>
+                            <Button x:Name="GenresRightBtn" Content="›" Style="{StaticResource NavButton}" Click="ScrollGenresRight_Click"/>
+                        </StackPanel>
                     </Grid>
 
+                    <ScrollViewer x:Name="GenresScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" ScrollChanged="Scroll_Changed">
+                        <ItemsControl ItemsSource="{Binding Genres}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding Name}"
+                                            Background="{Binding Background}"
+                                            Style="{StaticResource GenreTile}"
+                                            Command="{Binding DataContext.SearchGenreCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding Name}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

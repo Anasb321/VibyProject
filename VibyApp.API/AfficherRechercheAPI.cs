@@ -18,12 +18,12 @@
 
                 foreach (var element in doc.RootElement.GetProperty("data").EnumerateArray())
                 {
-                    genres.Add(element.GetProperty("name").GetString());
+                    genres.Add(element.GetProperty("name").GetString() ?? string.Empty);
                 }
 
                 return genres;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new List<string> { "Erreur de chargement" };
             }

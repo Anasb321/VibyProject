@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:VibyApp.UI.Converters"
              mc:Ignorable="d" 
              d:DesignWidth="1100" Height="90">
 
     <UserControl.Resources>
+        <converters:SecondsToTimeConverter x:Key="SecondsToTime"/>
         <Style x:Key="PlayerControlButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -62,8 +64,11 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                <Border Width="55" Height="55" Background="#1F2937" CornerRadius="6">
-                    <TextBlock Text="🎵" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Opacity="0.5"/>
+                <Border Width="55" Height="55" Background="#1F2937" CornerRadius="6" ClipToBounds="True">
+                    <Grid>
+                        <TextBlock Text="🎵" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Opacity="0.5"/>
+                        <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                    </Grid>
                 </Border>
                 <StackPanel VerticalAlignment="Center" Margin="15,0">
                     <TextBlock Text="{Binding CurrentTrackName}" Foreground="White" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
@@ -100,12 +105,14 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="0:00" Foreground="#64748B" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Foreground="#64748B" FontSize="11" VerticalAlignment="Center"
+                               Text="{Binding TimeCurrentPosition, Converter={StaticResource SecondsToTime}}"/>
                     <Slider Grid.Column="1" Margin="10,0" VerticalAlignment="Center"
                             Maximum="{Binding TotalDuration}" 
                             Value="{Binding TimeCurrentPosition, Mode=TwoWay}"
                             Minimum="0"/>
-                    <TextBlock Grid.Column="2" Text="3:45" Foreground="#64748B" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Foreground="#64748B" FontSize="11" VerticalAlignment="Center"
+                               Text="{Binding TotalDuration, Converter={StaticResource SecondsToTime}}"/>
                 </Grid>
             </StackPanel>
 

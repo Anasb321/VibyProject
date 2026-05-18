@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VibyApp.ViewModels
+namespace VibyApp.UI.ViewModels
 {
     public partial class SongsViewModel : ObservableObject
     {

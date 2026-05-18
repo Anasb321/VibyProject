@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using VibyApp.DB.Repository;
-using VibyApp.DB.Data;
+﻿using System.Windows.Controls;
 
 namespace VibyApp.UI.Views
 {
@@ -10,18 +7,6 @@ namespace VibyApp.UI.Views
         public ProfileView()
         {
             InitializeComponent();
-            var context = new VibyDbContext();
-            var repository = new UserRepository(context);
-
-            this.DataContext = new VibyApp.ViewModels.ProfileViewModel(repository);
-        }
-
-        private void Home_Click(object sender, RoutedEventArgs e)
-        {
-            if (Application.Current.MainWindow.DataContext is VibyApp.UI.ViewModels.MainViewModel mainVM)
-            { 
-                mainVM.MoveToHomeCommand.Execute(null);
-            }
         }
     }
 }

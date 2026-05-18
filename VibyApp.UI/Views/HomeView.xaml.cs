@@ -8,10 +8,8 @@ namespace VibyApp.UI.Views
         public HomeView()
         {
             InitializeComponent();
-            this.DataContext = new VibyApp.ViewModels.HomeViewModel();
         }
 
-        // --- LOGIQUE DE SCROLLING ---
         private void ScrollTracksLeft_Click(object sender, RoutedEventArgs e) =>
             TracksScroll.ScrollToHorizontalOffset(TracksScroll.HorizontalOffset - 600);
 
@@ -32,23 +30,23 @@ namespace VibyApp.UI.Views
 
         private void Scroll_Changed(object sender, ScrollChangedEventArgs e)
         {
-            if (sender is ScrollViewer sv)
+            if (sender is not ScrollViewer sv)
+                return;
+
+            if (sv == TracksScroll)
             {
-                if (sv == TracksScroll)
-                {
-                    TracksLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
-                    TracksRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
-                }
-                else if (sv == ArtistsScroll)
-                {
-                    ArtistsLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
-                    ArtistsRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
-                }
-                else if (sv == GenresScroll)
-                {
-                    GenresLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
-                    GenresRightBtn.IsEnabled = sv.HorizontalOffset < (sv.ExtentWidth - sv.ViewportWidth - 1);
-                }
+                TracksLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                TracksRightBtn.IsEnabled = sv.HorizontalOffset < sv.ExtentWidth - sv.ViewportWidth - 1;
+            }
+            else if (sv == ArtistsScroll)
+            {
+                ArtistsLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                ArtistsRightBtn.IsEnabled = sv.HorizontalOffset < sv.ExtentWidth - sv.ViewportWidth - 1;
+            }
+            else if (sv == GenresScroll)
+            {
+                GenresLeftBtn.IsEnabled = sv.HorizontalOffset > 0;
+                GenresRightBtn.IsEnabled = sv.HorizontalOffset < sv.ExtentWidth - sv.ViewportWidth - 1;
             }
         }
     }

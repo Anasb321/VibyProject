@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
-using VibyApp.ViewModels;
+using VibyApp.UI.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -59,7 +59,7 @@ namespace VibyApp.UI.ViewModels
         }
 
         // ERROR MESSAGE
-        private string _errorMessage;
+        private string _errorMessage = string.Empty;
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -163,18 +163,20 @@ namespace VibyApp.UI.ViewModels
         }
 
         // DELETE
-        private async Task DeletePlaylist(Playlist playlist)
+        private async Task DeletePlaylist(Playlist? playlist)
         {
-            if (playlist == null) return;
+            if (playlist == null)
+                return;
 
             await _playlistRepository.DeleteAsync(playlist.Id);
             Playlists.Remove(playlist);
         }
 
         // OPEN DETAIL PAGE
-        private void OpenPlaylist(Playlist playlist)
+        private void OpenPlaylist(Playlist? playlist)
         {
-            if (playlist == null) return;
+            if (playlist == null)
+                return;
 
             var vm = new PlaylistDetailViewModel(_playlistRepository, playlist);
 

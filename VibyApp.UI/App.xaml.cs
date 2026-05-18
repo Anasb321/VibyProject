@@ -12,7 +12,7 @@ namespace VibyProject
 {
     public partial class App : Application
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
+        public static IServiceProvider ServiceProvider { get; private set; } = null!;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -33,11 +33,14 @@ namespace VibyProject
 
             // --- SERVICES ---
             services.AddSingleton<DeezerService>();
+            services.AddSingleton<IAudioService, AudioService>();
             services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // --- VIEWMODELS ---
+            services.AddSingleton<PlayerBarViewModel>();
             services.AddSingleton<MainViewModel>();
-            services.AddTransient<HomeViewModel>();
+            services.AddSingleton<HomeViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<ProfileViewModel>();
