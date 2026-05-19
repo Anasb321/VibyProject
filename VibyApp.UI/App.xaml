@@ -53,6 +53,10 @@
                 <views:PlaylistDetailView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:LikedViewModel}">
+                <views:LikedView />
+            </DataTemplate>
+
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
             <converters:StringToColorConverter x:Key="StringToColorConverter" />

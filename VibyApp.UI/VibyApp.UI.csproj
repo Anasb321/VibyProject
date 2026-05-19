@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <BaseOutputPath>$(MSBuildProjectDirectory)\bin\</BaseOutputPath>
+    <GenerateGlobalUsings>false</GenerateGlobalUsings>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)\bin\**;$(MSBuildProjectDirectory)\obj\**</DefaultItemExcludes>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <EnableDefaultItems>true</EnableDefaultItems>
   </PropertyGroup>
 
   <ItemGroup>

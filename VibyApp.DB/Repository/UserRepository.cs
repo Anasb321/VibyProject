@@ -82,6 +82,61 @@ namespace VibyApp.DB.Repository
             u.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase));
         }
 
+        public async Task<List<Track>> GetFavoriteTracksAsync(int userId)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Id == userId)
+                .SelectMany(u => u.FavoriteTracks)
+                .OrderByDescending(t => t.Id)
+                .ToListAsync();
+        }
+
+        public async Task<bool> IsTrackFavoriteAsync(int userId, long deezerId)
+        {
+            return await _context.Users
+                .Where(u => u.Id == userId)
+                .SelectMany(u => u.FavoriteTracks)
+                .AnyAsync(t => t.DeezerId == deezerId);
+        }
+
+        public async Task<bool> ToggleFavoriteTrackAsync(int userId, Track track)
+        {
+            var trackInDb = await EnsureTrackAsync(track);
+
+            var user = await _context.Users
+                .Include(u => u.FavoriteTracks)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+                return false;
+
+            var existing = user.FavoriteTracks.FirstOrDefault(t => t.Id == trackInDb.Id);
+            if (existing != null)
+            {
+                user.FavoriteTracks.Remove(existing);
+                await _context.SaveChangesAsync();
+                return false;
+            }
+
+            user.FavoriteTracks.Add(trackInDb);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        private async Task<Track> EnsureTrackAsync(Track track)
+        {
+            var existing = await _context.Tracks
+                .FirstOrDefaultAsync(t => t.DeezerId == track.DeezerId);
+
+            if (existing != null)
+                return existing;
+
+            _context.Tracks.Add(track);
+            await _context.SaveChangesAsync();
+            return track;
+        }
+
         public async Task<bool> AjouterMusiqueAuxFavorisAsync(int userId, int trackId)
         {
             var user = await _context.Users

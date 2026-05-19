@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "VibyApp (interface WPF)",
+    "Projects": [
+      {
+        "Path": "VibyApp.UI\\VibyApp.UI.csproj",
+        "Action": "Start",
+        "DebugTarget": "VibyApp.UI"
+      }
+    ]
+  }
+]

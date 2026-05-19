@@ -1,67 +1,56 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using VibyApp.DB.Repository;
+using Microsoft.Extensions.DependencyInjection;
 using VibyApp.UI.Services;
 
 namespace VibyApp.UI.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly IPlaylistRepository _playlistRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly DeezerService _deezerService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly INavigationService _navigationService;
+        private HomeViewModel? _homeVM;
 
-        private object _currentView = null!;
-        public object CurrentView
+        private object? _currentView;
+        public object? CurrentView
         {
             get => _currentView;
-            set
+            private set
             {
                 _currentView = value;
                 OnPropertyChanged();
             }
         }
 
-        // ViewModels persistants
         public PlayerBarViewModel PlayerBarViewModel { get; }
-        public HomeViewModel HomeVM { get; }
-        private bool _isPlayerVisible;
-        public bool IsPlayerVisible
-        {
-            get => _isPlayerVisible;
-            set { _isPlayerVisible = value; OnPropertyChanged(); }
-        }
 
-        // Commandes pour les boutons de la Sidebar
+        public HomeViewModel HomeVM => _homeVM ??= _serviceProvider.GetRequiredService<HomeViewModel>();
+
         public IRelayCommand MoveToHomeCommand { get; }
         public IRelayCommand MoveToExploreCommand { get; }
         public IRelayCommand MoveToLibraryCommand { get; }
         public IRelayCommand MoveToProfileCommand { get; }
+        public IRelayCommand MoveToLikedCommand { get; }
 
-        // Le constructeur reçoit HomeViewModel et Deezer Service via l'injection de dépendances
-        public MainViewModel(HomeViewModel homeVM, DeezerService deezerService, IPlaylistRepository playlistRepository, IUserRepository userRepository, PlayerBarViewModel playerBarViewModel)
+        public MainViewModel(
+            PlayerBarViewModel playerBarViewModel,
+            INavigationService navigationService,
+            IServiceProvider serviceProvider)
         {
-            _deezerService = deezerService;
-            _playlistRepository = playlistRepository;
-            _userRepository = userRepository;
-            HomeVM = homeVM;
+            _serviceProvider = serviceProvider;
+            _navigationService = navigationService;
             PlayerBarViewModel = playerBarViewModel;
-            PlayerBarViewModel.PlaybackStarted += () =>
-            {
-                IsPlayerVisible = true;
-            };
 
-            // On commence sur le Login au démarrage (ou Home si tu préfères)
-            CurrentView = new LoginViewModel(this, _deezerService);
+            _navigationService.AttachShell(this);
 
-            // Initialisation des commandes
-            MoveToHomeCommand = new RelayCommand(() => CurrentView = HomeVM);
-
-            // Navigation vers les autres vues en passant les dépendances nécessaires
-            MoveToProfileCommand = new RelayCommand(() => CurrentView = new ProfileViewModel(_userRepository));
-
-            MoveToExploreCommand = new RelayCommand(() => CurrentView = HomeVM);
-
-            MoveToLibraryCommand = new RelayCommand(() => CurrentView = new LibraryViewModel(_playlistRepository));
+            MoveToHomeCommand = new RelayCommand(_navigationService.NavigateToHome);
+            MoveToProfileCommand = new RelayCommand(_navigationService.NavigateToProfile);
+            MoveToExploreCommand = new RelayCommand(_navigationService.NavigateToHome);
+            MoveToLibraryCommand = new RelayCommand(_navigationService.NavigateToLibrary);
+            MoveToLikedCommand = new RelayCommand(_navigationService.NavigateToLiked);
         }
+
+        public void ShowInitialView() => _navigationService.NavigateToLogin();
+
+        internal void SetCurrentView(object view) => CurrentView = view;
     }
 }

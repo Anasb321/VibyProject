@@ -114,7 +114,8 @@
 
                 <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                     <TextBlock Text="VOS MUSIQUES" Foreground="#475569" FontSize="11" FontWeight="Bold" Margin="15,0,0,10" Opacity="0.6"/>
-                    <Button Content="❤️  Titres likés" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="❤️  Titres likés" Style="{StaticResource SidebarButtonStyle}"
+                            Command="{Binding DataContext.MoveToLikedCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
                     <Button Content="📻  Albums" Style="{StaticResource SidebarButtonStyle}"/>
                 </StackPanel>
             </DockPanel>

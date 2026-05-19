@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 using VibyApp.UI.Models;
 using VibyApp.UI.Services;
-using VibyProject;
 
 namespace VibyApp.UI.ViewModels
 {
@@ -11,6 +11,8 @@ namespace VibyApp.UI.ViewModels
     {
         private readonly DeezerService _deezerService;
         private readonly PlayerBarViewModel _playerBarViewModel;
+        private readonly IFavoriteCoordinator _favoriteCoordinator;
+        private readonly ICurrentUserService _currentUserService;
         private CancellationTokenSource? _searchCts;
 
         private bool _isLoading;
@@ -19,10 +21,10 @@ namespace VibyApp.UI.ViewModels
         [ObservableProperty]
         private string _searchQuery = string.Empty;
 
-        public ObservableCollection<Track> TopTracks { get; } = new();
+        public ObservableCollection<TrackDisplayItem> TopTracks { get; } = new();
         public ObservableCollection<Artist> TopArtists { get; } = new();
         public ObservableCollection<GenreItem> Genres { get; } = new();
-        public ObservableCollection<Track> SearchResults { get; } = new();
+        public ObservableCollection<TrackDisplayItem> SearchResults { get; } = new();
 
         public bool IsLoading
         {
@@ -38,21 +40,61 @@ namespace VibyApp.UI.ViewModels
 
         public bool IsSearchMode => !string.IsNullOrWhiteSpace(SearchQuery) && SearchQuery.Trim().Length >= 2;
 
-        public HomeViewModel(DeezerService deezerService, PlayerBarViewModel playerBarViewModel)
+        public HomeViewModel(
+            DeezerService deezerService,
+            PlayerBarViewModel playerBarViewModel,
+            IFavoriteCoordinator favoriteCoordinator,
+            ICurrentUserService currentUserService)
         {
             _deezerService = deezerService;
             _playerBarViewModel = playerBarViewModel;
+            _favoriteCoordinator = favoriteCoordinator;
+            _currentUserService = currentUserService;
+
+            _favoriteCoordinator.FavoriteChanged += OnFavoriteChanged;
+
             _ = LoadDataAsync();
         }
 
-        [RelayCommand]
-        private void PlayTrack(Track? track)
+        public async Task RefreshFavoritesAsync()
         {
-            if (track == null || string.IsNullOrWhiteSpace(track.Preview))
+            await _favoriteCoordinator.LoadFromDatabaseAsync();
+            SyncFavoriteFlags(TopTracks);
+            SyncFavoriteFlags(SearchResults);
+        }
+
+        private void OnFavoriteChanged(long deezerId, bool isFavorite)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                UpdateItemFavorite(TopTracks, deezerId, isFavorite);
+                UpdateItemFavorite(SearchResults, deezerId, isFavorite);
+            });
+        }
+
+        private static void UpdateItemFavorite(IEnumerable<TrackDisplayItem> items, long deezerId, bool isFavorite)
+        {
+            foreach (var item in items.Where(i => i.Track.Id == deezerId))
+                item.IsFavorite = isFavorite;
+        }
+
+        [RelayCommand]
+        private void PlayTrack(TrackDisplayItem? item)
+        {
+            if (item?.Track == null || string.IsNullOrWhiteSpace(item.Track.Preview))
                 return;
 
-            var queue = IsSearchMode ? SearchResults : TopTracks;
-            _playerBarViewModel.PlayTrack(track, queue);
+            var queue = (IsSearchMode ? SearchResults : TopTracks).Select(t => t.Track);
+            _playerBarViewModel.PlayTrack(item.Track, queue);
+        }
+
+        [RelayCommand]
+        private async Task ToggleFavorite(TrackDisplayItem? item)
+        {
+            if (item?.Track == null || _currentUserService.CurrentUser == null)
+                return;
+
+            item.IsFavorite = await _favoriteCoordinator.ToggleAsync(item.Track);
         }
 
         [RelayCommand]
@@ -78,7 +120,7 @@ namespace VibyApp.UI.ViewModels
 
             if (string.IsNullOrWhiteSpace(query) || query.Trim().Length < 2)
             {
-                await App.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     SearchResults.Clear();
                     IsSearching = false;
@@ -96,26 +138,21 @@ namespace VibyApp.UI.ViewModels
                 if (token.IsCancellationRequested)
                     return;
 
-                await App.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     SearchResults.Clear();
                     foreach (var track in results)
-                        SearchResults.Add(track);
+                        SearchResults.Add(WrapTrack(track));
 
                     IsSearching = false;
                     OnPropertyChanged(nameof(IsSearchMode));
                 });
             }
-            catch (OperationCanceledException)
-            {
-                // Recherche annulée par une nouvelle frappe
-            }
+            catch (OperationCanceledException) { }
             catch
             {
                 if (!token.IsCancellationRequested)
-                {
-                    await App.Current.Dispatcher.InvokeAsync(() => IsSearching = false);
-                }
+                    await Application.Current.Dispatcher.InvokeAsync(() => IsSearching = false);
             }
         }
 
@@ -125,6 +162,9 @@ namespace VibyApp.UI.ViewModels
             {
                 IsLoading = true;
 
+                if (_currentUserService.CurrentUser != null)
+                    await _favoriteCoordinator.LoadFromDatabaseAsync();
+
                 var chartTask = _deezerService.GetTop50Async();
                 var genresTask = _deezerService.GetGenreNamesAsync();
                 await Task.WhenAll(chartTask, genresTask);
@@ -132,11 +172,11 @@ namespace VibyApp.UI.ViewModels
                 var (tracks, artists) = await chartTask;
                 var genreNames = await genresTask;
 
-                await App.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     TopTracks.Clear();
                     foreach (var track in tracks)
-                        TopTracks.Add(track);
+                        TopTracks.Add(WrapTrack(track));
 
                     TopArtists.Clear();
                     foreach (var artist in artists)
@@ -157,6 +197,14 @@ namespace VibyApp.UI.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private TrackDisplayItem WrapTrack(Track track) => new(track, _favoriteCoordinator.IsFavorite(track.Id));
+
+        private void SyncFavoriteFlags(IEnumerable<TrackDisplayItem> items)
+        {
+            foreach (var item in items)
+                item.IsFavorite = _favoriteCoordinator.IsFavorite(item.Track.Id);
         }
     }
 }

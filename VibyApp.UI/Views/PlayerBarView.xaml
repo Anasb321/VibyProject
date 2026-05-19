@@ -9,6 +9,7 @@
 
     <UserControl.Resources>
         <converters:SecondsToTimeConverter x:Key="SecondsToTime"/>
+        <converters:FavoriteHeartForegroundConverter x:Key="FavoriteHeartBrush"/>
         <Style x:Key="PlayerControlButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -74,7 +75,11 @@
                     <TextBlock Text="{Binding CurrentTrackName}" Foreground="White" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
                     <TextBlock Text="{Binding CurrentArtistName}" Foreground="#64748B" FontSize="12" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
-                <Button Content="❤️" Style="{StaticResource PlayerControlButton}" FontSize="14" Margin="15,0,0,0"/>
+                <Button Style="{StaticResource PlayerControlButton}" Margin="15,0,0,0"
+                        Command="{Binding ToggleFavoriteCommand}" ToolTip="Ajouter aux titres aimés">
+                    <TextBlock Text="♥" FontSize="20" FontWeight="Bold"
+                               Foreground="{Binding IsCurrentTrackFavorite, Converter={StaticResource FavoriteHeartBrush}}"/>
+                </Button>
             </StackPanel>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center">

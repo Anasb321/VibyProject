@@ -1,13 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using VibyApp.DB.Models;
 using VibyApp.DB.Repository;
+using VibyApp.UI.Services;
 
 namespace VibyApp.UI.ViewModels
 {
     public partial class ProfileViewModel : BaseViewModel
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ICurrentUserService _currentUserService;
         private User? _currentUser;
 
         [ObservableProperty]
@@ -19,15 +22,21 @@ namespace VibyApp.UI.ViewModels
         [ObservableProperty]
         private string _fullName = "...";
 
-        public ProfileViewModel(IUserRepository userRepository)
+        public ProfileViewModel(IServiceScopeFactory scopeFactory, ICurrentUserService currentUserService)
         {
-            _userRepository = userRepository;
+            _scopeFactory = scopeFactory;
+            _currentUserService = currentUserService;
             _ = LoadUserDataAsync();
         }
 
         private async Task LoadUserDataAsync()
         {
-            var user = await _userRepository.GetByIdAsync(1);
+            if (_currentUserService.CurrentUser == null)
+                return;
+
+            using var scope = _scopeFactory.CreateScope();
+            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+            var user = await userRepository.GetByIdAsync(_currentUserService.CurrentUser.Id);
             if (user != null)
             {
                 _currentUser = user;
@@ -46,7 +55,9 @@ namespace VibyApp.UI.ViewModels
             _currentUser.UserName = Username;
             _currentUser.Email = UserEmail;
 
-            await _userRepository.UpdateAsync(_currentUser);
+            using var scope = _scopeFactory.CreateScope();
+            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+            await userRepository.UpdateAsync(_currentUser);
         }
     }
 }

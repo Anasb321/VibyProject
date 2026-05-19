@@ -1,16 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using VibyApp.DB.Models;
 using VibyApp.DB.Repository;
-using VibyProject;
+using VibyApp.UI.Services;
 
 namespace VibyApp.UI.ViewModels
 {
     public class LibraryViewModel : BaseViewModel
     {
-        private readonly IPlaylistRepository _playlistRepository;
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly INavigationService _navigationService;
 
-        // LISTE DES PLAYLISTS
         private ObservableCollection<Playlist> _playlists = new();
         public ObservableCollection<Playlist> Playlists
         {
@@ -22,7 +24,6 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // PLAYLIST EN COURS (MODAL)
         private Playlist _currentPlaylist = new();
         public Playlist CurrentPlaylist
         {
@@ -34,7 +35,6 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // MODAL STATE
         private bool _isModalOpen;
         public bool IsModalOpen
         {
@@ -46,7 +46,6 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // LOADING STATE (SAVE)
         private bool _isSaving;
         public bool IsSaving
         {
@@ -58,7 +57,6 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // ERROR MESSAGE
         private string _errorMessage = string.Empty;
         public string ErrorMessage
         {
@@ -70,71 +68,69 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // COMMANDS
         public IRelayCommand OpenCreatePlaylistCommand { get; }
         public IRelayCommand SavePlaylistCommand { get; }
         public IRelayCommand CloseModalCommand { get; }
         public IRelayCommand SelectImageCommand { get; }
-
         public IRelayCommand<Playlist> DeletePlaylistCommand { get; }
         public IRelayCommand<Playlist> OpenPlaylistCommand { get; }
 
-        public LibraryViewModel(IPlaylistRepository playlistRepository)
+        public LibraryViewModel(
+            IServiceScopeFactory scopeFactory,
+            ICurrentUserService currentUserService,
+            INavigationService navigationService)
         {
-            _playlistRepository = playlistRepository;
+            _scopeFactory = scopeFactory;
+            _currentUserService = currentUserService;
+            _navigationService = navigationService;
 
-            // UI
             OpenCreatePlaylistCommand = new RelayCommand(OpenCreatePlaylist);
             CloseModalCommand = new RelayCommand(CloseModal);
             SavePlaylistCommand = new RelayCommand(async () => await SavePlaylist());
             SelectImageCommand = new RelayCommand(SelectImage);
-
-            // Playlist actions
             DeletePlaylistCommand = new RelayCommand<Playlist>(async (p) => await DeletePlaylist(p));
             OpenPlaylistCommand = new RelayCommand<Playlist>(OpenPlaylist);
 
             _ = LoadUserPlaylistsAsync();
         }
 
-        // LOAD DATA
         private async Task LoadUserPlaylistsAsync()
         {
-            var data = await _playlistRepository.GetAllByUserIdAsync(1);
+            if (_currentUserService.CurrentUser == null)
+                return;
+
+            using var scope = _scopeFactory.CreateScope();
+            var playlistRepository = scope.ServiceProvider.GetRequiredService<IPlaylistRepository>();
+            var data = await playlistRepository.GetAllByUserIdAsync(_currentUserService.CurrentUser.Id);
 
             Playlists.Clear();
-
             foreach (var playlist in data)
                 Playlists.Add(playlist);
         }
 
-        // OPEN MODAL
         private void OpenCreatePlaylist()
         {
             CurrentPlaylist = new Playlist
             {
-                UserId = 1
+                UserId = _currentUserService.CurrentUser?.Id ?? 0
             };
 
             ErrorMessage = "";
             IsModalOpen = true;
         }
 
-        // SAVE PLAYLIST
         private async Task SavePlaylist()
         {
             if (IsSaving) return;
 
-            // Reset erreur
             ErrorMessage = "";
 
-            // VALIDATION 1 : NOM VIDE
             if (string.IsNullOrWhiteSpace(CurrentPlaylist.Name))
             {
                 ErrorMessage = "Le nom est obligatoire";
                 return;
             }
 
-            // VALIDATION 2 : DOUBLON
             bool exists = Playlists.Any(p =>
                 p.Name.Trim().ToLower() ==
                 CurrentPlaylist.Name.Trim().ToLower());
@@ -149,10 +145,11 @@ namespace VibyApp.UI.ViewModels
             {
                 IsSaving = true;
 
-                await _playlistRepository.AddAsync(CurrentPlaylist);
+                using var scope = _scopeFactory.CreateScope();
+                var playlistRepository = scope.ServiceProvider.GetRequiredService<IPlaylistRepository>();
+                await playlistRepository.AddAsync(CurrentPlaylist);
                 Playlists.Add(CurrentPlaylist);
 
-                // reset + fermeture
                 IsModalOpen = false;
                 CurrentPlaylist = new Playlist();
             }
@@ -162,31 +159,25 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // DELETE
         private async Task DeletePlaylist(Playlist? playlist)
         {
             if (playlist == null)
                 return;
 
-            await _playlistRepository.DeleteAsync(playlist.Id);
+            using var scope = _scopeFactory.CreateScope();
+            var playlistRepository = scope.ServiceProvider.GetRequiredService<IPlaylistRepository>();
+            await playlistRepository.DeleteAsync(playlist.Id);
             Playlists.Remove(playlist);
         }
 
-        // OPEN DETAIL PAGE
         private void OpenPlaylist(Playlist? playlist)
         {
             if (playlist == null)
                 return;
 
-            var vm = new PlaylistDetailViewModel(_playlistRepository, playlist);
-
-            var mainVM = App.Current.MainWindow.DataContext as MainViewModel;
-
-            if (mainVM != null)
-                mainVM.CurrentView = vm;
+            _navigationService.NavigateToPlaylistDetail(playlist);
         }
 
-        // IMAGE PICKER
         private void SelectImage()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
@@ -201,7 +192,6 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
-        // CLOSE MODAL
         private void CloseModal()
         {
             IsModalOpen = false;

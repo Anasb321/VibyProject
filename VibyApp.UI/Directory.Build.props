@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <_VibyBuildRoot>$(LOCALAPPDATA)\VibyAppBuild\VibyApp.UI\</_VibyBuildRoot>
+    <BaseIntermediateOutputPath>$(_VibyBuildRoot)obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>
