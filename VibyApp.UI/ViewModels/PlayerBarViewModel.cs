@@ -10,8 +10,11 @@ namespace VibyApp.UI.ViewModels
     public class PlayerBarViewModel : BaseViewModel
     {
         private readonly IAudioService _audioService;
+        private readonly IFavoriteCoordinator _favoriteCoordinator;
+        private readonly ICurrentUserService _currentUserService;
         private List<Track> _queue = new();
         private int _currentIndex = -1;
+        private Track? _currentTrack;
 
         private bool _isPlaying;
         private double _timeCurrentPosition;
@@ -22,6 +25,7 @@ namespace VibyApp.UI.ViewModels
         private string _currentArtistName = string.Empty;
         private double _volume = 70;
         private ImageSource? _coverImage;
+        private bool _isCurrentTrackFavorite;
 
         public event Action? PlaybackStarted;
 
@@ -66,7 +70,7 @@ namespace VibyApp.UI.ViewModels
         public string CurrentTrackName
         {
             get => _currentTrackName;
-            set { _currentTrackName = value; OnPropertyChanged(); }
+            set { _currentTrackName = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasActiveTrack)); }
         }
 
         public string CurrentArtistName
@@ -92,6 +96,12 @@ namespace VibyApp.UI.ViewModels
             }
         }
 
+        public bool IsCurrentTrackFavorite
+        {
+            get => _isCurrentTrackFavorite;
+            private set { _isCurrentTrackFavorite = value; OnPropertyChanged(); }
+        }
+
         public bool HasActiveTrack => !string.IsNullOrEmpty(CurrentTrackName);
 
         public ICommand TogglePlayPauseCommand { get; }
@@ -99,16 +109,25 @@ namespace VibyApp.UI.ViewModels
         public ICommand PreviousTrackCommand { get; }
         public ICommand ToggleShuffleCommand { get; }
         public ICommand ToggleRepeatCommand { get; }
+        public ICommand ToggleFavoriteCommand { get; }
 
-        public PlayerBarViewModel(IAudioService audioService)
+        public PlayerBarViewModel(
+            IAudioService audioService,
+            IFavoriteCoordinator favoriteCoordinator,
+            ICurrentUserService currentUserService)
         {
             _audioService = audioService ?? throw new ArgumentNullException(nameof(audioService));
+            _favoriteCoordinator = favoriteCoordinator;
+            _currentUserService = currentUserService;
 
             TogglePlayPauseCommand = new RelayCommand(_ => ExecuteTogglePlayPause(), _ => HasActiveTrack);
             NextTrackCommand = new RelayCommand(_ => PlayNext(), _ => _queue.Count > 1);
             PreviousTrackCommand = new RelayCommand(_ => PlayPrevious(), _ => _queue.Count > 1);
             ToggleShuffleCommand = new RelayCommand(_ => ExecuteToggleShuffle());
             ToggleRepeatCommand = new RelayCommand(_ => ExecuteToggleRepeat());
+            ToggleFavoriteCommand = new RelayCommand(_ => _ = ToggleFavoriteAsync(), _ => HasActiveTrack && _currentUserService.CurrentUser != null);
+
+            _favoriteCoordinator.FavoriteChanged += OnFavoriteChanged;
 
             _audioService.PositionChanged += (_, _) => UpdatePositionFromPlayer();
             _audioService.TrackFinished += (_, _) =>
@@ -123,6 +142,20 @@ namespace VibyApp.UI.ViewModels
             };
 
             Volume = _audioService.Volume;
+        }
+
+        private void OnFavoriteChanged(long deezerId, bool isFavorite)
+        {
+            if (_currentTrack?.Id == deezerId)
+                IsCurrentTrackFavorite = isFavorite;
+        }
+
+        private async Task ToggleFavoriteAsync()
+        {
+            if (_currentTrack == null || _currentUserService.CurrentUser == null)
+                return;
+
+            IsCurrentTrackFavorite = await _favoriteCoordinator.ToggleAsync(_currentTrack);
         }
 
         public void PlayTrack(Track track, IEnumerable<Track>? queue = null)
@@ -148,10 +181,12 @@ namespace VibyApp.UI.ViewModels
 
             var track = _queue[index];
             _currentIndex = index;
+            _currentTrack = track;
 
             CurrentTrackName = track.Title;
             CurrentArtistName = track.Artist?.Name ?? "Artiste inconnu";
             LoadCoverImage(track.Album?.CoverUrl ?? track.Artist?.PictureUrl);
+            IsCurrentTrackFavorite = _favoriteCoordinator.IsFavorite(track.Id);
 
             _audioService.LoadTrack(track.Preview);
             TotalDuration = track.Duration > 0 ? track.Duration : _audioService.TotalDuration.TotalSeconds;
@@ -171,8 +206,7 @@ namespace VibyApp.UI.ViewModels
             if (_audioService.IsShuffleActive)
             {
                 var random = new Random();
-                var next = random.Next(_queue.Count);
-                PlayTrackAtIndex(next);
+                PlayTrackAtIndex(random.Next(_queue.Count));
                 return;
             }
 
@@ -183,8 +217,7 @@ namespace VibyApp.UI.ViewModels
                     index = 0;
                 else
                 {
-                    _audioService.Stop();
-                    IsPlaying = false;
+                    StopPlayback();
                     return;
                 }
             }
@@ -243,13 +276,9 @@ namespace VibyApp.UI.ViewModels
                 return;
 
             if (_audioService.IsPlaying)
-            {
                 _audioService.Pause();
-            }
             else
-            {
                 _audioService.Play();
-            }
 
             IsPlaying = _audioService.IsPlaying;
         }
@@ -264,6 +293,22 @@ namespace VibyApp.UI.ViewModels
         {
             _audioService.IsRepeatActive = !_audioService.IsRepeatActive;
             IsRepeatActive = _audioService.IsRepeatActive;
+        }
+
+        public void StopPlayback()
+        {
+            _audioService.Stop();
+            _queue.Clear();
+            _currentIndex = -1;
+            _currentTrack = null;
+            CurrentTrackName = string.Empty;
+            CurrentArtistName = string.Empty;
+            CoverImage = null;
+            TimeCurrentPosition = 0;
+            TotalDuration = 0;
+            IsPlaying = false;
+            IsCurrentTrackFavorite = false;
+            OnPropertyChanged(nameof(HasActiveTrack));
         }
     }
 }

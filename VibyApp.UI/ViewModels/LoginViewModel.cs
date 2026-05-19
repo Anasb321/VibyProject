@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using VibyApp.DB.Data;
+using Microsoft.Extensions.DependencyInjection;
 using VibyApp.DB.Repository;
 using VibyApp.UI.Services;
+
 namespace VibyApp.UI.ViewModels
 {
     public partial class LoginViewModel : BaseViewModel
     {
-        private readonly MainViewModel _mainVM;
-        private readonly DeezerService _deezerService;
+        private readonly INavigationService _navigationService;
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ICurrentUserService _currentUserService;
 
         private string _identifier = "";
         public string Identifier
@@ -23,11 +25,14 @@ namespace VibyApp.UI.ViewModels
             set { _errorMessage = value; OnPropertyChanged(); }
         }
 
-        // On injecte le service ici via le constructeur
-        public LoginViewModel(MainViewModel mainVM, DeezerService deezerService)
+        public LoginViewModel(
+            INavigationService navigationService,
+            IServiceScopeFactory scopeFactory,
+            ICurrentUserService currentUserService)
         {
-            _mainVM = mainVM;
-            _deezerService = deezerService;
+            _navigationService = navigationService;
+            _scopeFactory = scopeFactory;
+            _currentUserService = currentUserService;
         }
 
         public async Task LoginAction(string password)
@@ -42,14 +47,15 @@ namespace VibyApp.UI.ViewModels
 
             try
             {
-                using var dbContext = new VibyDbContext();
-                var userRepository = new UserRepository(dbContext);
+                using var scope = _scopeFactory.CreateScope();
+                var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 
-                var isConnected = await userRepository.VerifyConnexionAsync(Identifier, password);
+                var user = await userRepository.VerifyConnexionAsync(Identifier, password);
 
-                if (isConnected != null)
+                if (user != null)
                 {
-                    _mainVM.CurrentView = _mainVM.HomeVM;
+                    _currentUserService.SetUser(user);
+                    await _navigationService.NavigateToHomeAfterLoginAsync();
                 }
                 else
                 {
@@ -63,9 +69,6 @@ namespace VibyApp.UI.ViewModels
         }
 
         [RelayCommand]
-        public void GoToRegister()
-        {
-            _mainVM.CurrentView = new RegisterViewModel(_mainVM, _deezerService);
-        }
+        public void GoToRegister() => _navigationService.NavigateToRegister();
     }
 }
